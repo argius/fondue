@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>$entity detail</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>$entities/<span th:text="$#**#{item.id}" th:remove="tag"></span> details</p>
+	<div>
+		<a href="$resources" th:href="@{/$resources/list}"><span th:text="#{toList}" th:remove="tag"></span></a>
+		<a href="$resources" th:href="@{/$resources/edit/{id}(id=$#**#{item.id})}"><span th:text="#{toEdit}" th:remove="tag"></span></a>
+		<a href="$resources" th:href="@{/$resources/delete/{id}(id=$#**#{item.id})}" onclick="return confirm('Are you sure to delete this?');"><span th:text="#{doDelete}" th:remove="tag"></span></a>
+	</div>
+	<table>
+#foreach( $item in $items )
+		<tr>
+			<td>${item.property}</td>
+			<td th:text="$#**#{item.${item.property}}"></td>
+		</tr>
+#end
+	</table>
+</div>
+</body>
+</html>

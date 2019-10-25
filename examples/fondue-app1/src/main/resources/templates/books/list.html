@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Books</title>
+<style>
+@media screen and ( max-width:412px ) {
+	table th,
+	table td {
+		font-size: 60%;
+	}
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>Books</p>
+	<div class="totalCount" th:unless="${page == null or page.isDisabled()}"><span th:text="#{message.foundNRecords(${page.totalCount})}"></span></div>
+	<div class="paginationTop"><div th:include="pagination::compact('/books/list')" th:class="paginationbar"></div></div>
+	<table>
+		<tr>
+			<th>-</th>
+			<th><span th:text="id" th:remove="tag"></span></th>
+			<th><span th:text="created" th:remove="tag"></span></th>
+			<th><span th:text="updated" th:remove="tag"></span></th>
+			<th><span th:text="disabled" th:remove="tag"></span></th>
+			<th><span th:text="title" th:remove="tag"></span></th>
+			<th><span th:text="author" th:remove="tag"></span></th>
+			<th><span th:text="bookNumber" th:remove="tag"></span></th>
+			<th><span th:text="summary" th:remove="tag"></span></th>
+			<th><span th:text="note" th:remove="tag"></span></th>
+		</tr>
+		<tr th:each="item : ${books}">
+			<td><a href="dummy" th:href="@{/books/get/{id}(id=${item.id})}" th:text="#{toDetail}">(DETAIL)</a></td>
+			<td><span th:text="${#strings.abbreviate(item.id,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${item.created} ? ${#dates.format(item.created, 'yyyy-MM-dd HH:mm:ss.SSS')} : ''" th:remove="tag"></span></td>
+			<td><span th:text="${item.updated} ? ${#dates.format(item.updated, 'yyyy-MM-dd HH:mm:ss.SSS')} : ''" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.disabled,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.title,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.author,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.bookNumber,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.summary,128)}" th:remove="tag"></span></td>
+			<td><span th:text="${#strings.abbreviate(item.note,128)}" th:remove="tag"></span></td>
+		</tr>
+	</table>
+	<p><a th:href="@{/books/new}" th:text="#{createNew}"></a></p>
+	<div th:include="pagination::full('/books/list')" th:class="paginationbar"></div>
+</div>
+</body>
+</html>

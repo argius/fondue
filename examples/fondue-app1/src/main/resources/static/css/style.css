@@ -1,0 +1,216 @@
+body {
+	font-family: serif;
+	background-color: white;
+	color: black;
+	word-break: break-all;
+}
+
+a {
+	background-color: white;
+	padding: 1px 1px;
+	text-decoration: none;
+}
+
+table, td {
+	border: 1px solid silver;
+}
+
+.layout-header {
+	margin-bottom: 1ex;
+	border-bottom: 2px solid lime;
+	padding-bottom: 2px;
+}
+
+.layout-footer {
+	margin-top: 1.5ex;
+	border-top: 2px solid lime;
+	padding-top: 2px;
+}
+
+.paginationTop {
+	text-align: right;
+}
+
+.paginationbar {
+	margin: 2px;
+	height: 2em;
+}
+
+.paginationbar ul {
+	display: inline-block;
+	list-style: none;
+	margin: 4px;
+}
+
+.paginationbar ul li {
+	display: inline-block;
+	float: left;
+	text-align: center;
+	margin-bottom: 12px;
+}
+
+.paginationbar ul a {
+	background-color: white;
+	text-decoration: none;
+	border: 1px solid black;
+	padding: 4px 1.5ex;
+	min-width: 82px;
+}
+
+.paginationbar ul span {
+	background-color: #999;
+	color: black;
+	border: 1px solid black;
+	padding: 4px 12px;
+	min-width: 82px;
+}
+
+.paginationbar ul span.curr {
+	background-color: #e3e3a7;
+}
+
+.paginationbar div.totalCount {
+	margin-top: -3ex;
+}
+
+.paginationbar ul, #inputForm, #itemBlock {
+	padding-left: 0;
+}
+
+/* common color style */
+a:link {
+	color: red;
+}
+
+a:visited {
+	color: #941100;
+}
+
+a:active {
+	color: orange;
+}
+
+a:hover {
+	color: lime;
+}
+
+input[type=text], input[type=password] {
+	font-family: monospace;
+}
+
+input[type=button], input[type=submit], select {
+	background-color: silver;
+	border-radius: 5%;
+	-webkit-border-radius: 5%;
+	-moz-border-radius: 5%;
+}
+
+input.validation-error {
+	border: solid 4px orange;
+}
+
+/* show view messages ( see _.fw.ViewMessage ) */
+.message-area ul {
+	list-style: none;
+	margin-left: -4ex;
+}
+
+.message-area .message-error {
+	color: black;
+	font-weight: bold;
+	margin: 1ex 1ex;
+	background-color: Pink;
+	padding: 1ex 1em;
+	border-radius: 4px;
+}
+
+.message-area .message-warning {
+	color: black;
+	font-weight: bold;
+	margin: 1ex 1ex;
+	background-color: Yellow;
+	padding: 1ex 1em;
+	border-radius: 4px;
+}
+
+.message-area .message-success {
+	color: black;
+	font-weight: bold;
+	margin: 1ex 1ex;
+	background-color: LightGreen;
+	padding: 1ex 1em;
+	border-radius: 4px;
+}
+
+.message-area .message-notice {
+	color: black;
+	font-weight: bold;
+	margin: 1ex 1ex;
+	background-color: Aquamarine;
+	padding: 1ex 1em;
+	border-radius: 4px;
+}
+
+@media screen and ( max-width:412px ) {
+	/* smaller */
+	body, html {
+		font-size: 125%;
+	}
+	input[type=text], input[type=password] {
+		font-size: 160%;
+		width: 100%;
+	}
+	input[type=button], input[type=submit] {
+		font-size: 160%;
+		width: 280px;
+	}
+	button.btn-default {
+		font-size: 130%;
+		background-color: silver;
+	}
+	select {
+		font-size: 70%;
+	}
+	pre {
+		overflow: auto;
+		overflow-x: auto;
+	}
+	textarea {
+		font-size: 160%;
+		width: 100%;
+	}
+	nav {
+		padding: 0 0;
+	}
+	nav ul {
+		padding: 0 0;
+	}
+	nav .reloadLink {
+		position: fixed !important;
+		top: 48px;
+		left: 280px;
+		max-height: 24px;
+	}
+	.paginationbar ul a {
+		padding: 0.5em;
+		min-width: 50px;
+	}
+	
+	.paginationbar ul span {
+		padding: 0.5em;
+		min-width: 50px;
+	}
+}
+
+@media screen and ( min-width:413px ) {
+	/* larger */
+	body, html {
+		
+	}
+	input[type=text] {
+		min-width: 500px;
+	}
+	input[type=button], input[type=submit], select {
+		min-width: 200px;
+	}
+}

@@ -1,0 +1,52 @@
+#set( $className = $resourceClassName + "Form" )
+package app.controller;
+
+#if( !$validationBinder.isEmpty() )
+import javax.validation.constraints.*;
+#end
+import fondue.fw.FormMethods;
+import ${entityFqcn};
+
+public final class ${className} implements FormMethods {
+
+#foreach( $item in $items )
+#set( $vas = ${validationBinder.getValidationAnnotations($item.property)} )
+#if( $vas )
+#foreach( $va in $vas )
+    $va
+#end
+#end
+    private String $item.property;
+#end
+#foreach( $item in $items )
+
+    public String get${caseCtrl.toPascalCase($item.property)}() {
+        return this.$item.property;
+    }
+
+    public void set${caseCtrl.toPascalCase($item.property)}(String value) {
+        this.$item.property = value;
+    }
+#end
+
+    public void applyModel($entity model) {
+#foreach( $item in $items )
+#set( $prop = $item.property )
+        $prop = convertFrom(${item.javaType.name}.class, model.get${caseCtrl.toPascalCase($prop)}());
+#end
+    }
+
+    public $entity toModel() {
+        $entity o = new $entity();
+#foreach( $item in $items )
+#set( $prop = $item.property )
+        o.set${caseCtrl.toPascalCase($prop)}(convertTo(${item.javaType.name}.class, this.$prop));
+#end
+        return o;
+    }
+
+    @Override
+    public String toString() {
+        return toString(this);
+    }
+}

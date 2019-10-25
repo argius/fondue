@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Book detail</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>Books/<span th:text="${item.id}" th:remove="tag"></span> details</p>
+	<div>
+		<a href="books" th:href="@{/books/list}"><span th:text="#{toList}" th:remove="tag"></span></a>
+		<a href="books" th:href="@{/books/edit/{id}(id=${item.id})}"><span th:text="#{toEdit}" th:remove="tag"></span></a>
+		<a href="books" th:href="@{/books/delete/{id}(id=${item.id})}" onclick="return confirm('Are you sure to delete this?');"><span th:text="#{doDelete}" th:remove="tag"></span></a>
+	</div>
+	<table>
+		<tr>
+			<td>id</td>
+			<td th:text="${item.id}"></td>
+		</tr>
+		<tr>
+			<td>created</td>
+			<td th:text="${item.created}"></td>
+		</tr>
+		<tr>
+			<td>updated</td>
+			<td th:text="${item.updated}"></td>
+		</tr>
+		<tr>
+			<td>disabled</td>
+			<td th:text="${item.disabled}"></td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td th:text="${item.title}"></td>
+		</tr>
+		<tr>
+			<td>author</td>
+			<td th:text="${item.author}"></td>
+		</tr>
+		<tr>
+			<td>bookNumber</td>
+			<td th:text="${item.bookNumber}"></td>
+		</tr>
+		<tr>
+			<td>summary</td>
+			<td th:text="${item.summary}"></td>
+		</tr>
+		<tr>
+			<td>note</td>
+			<td th:text="${item.note}"></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

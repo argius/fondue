@@ -1,0 +1,47 @@
+package app.service;
+
+import java.util.List;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import fondue.fw.PP;
+import ${entityFqcn.replace(".model.", ".dao.")}Mapper;
+import ${entityFqcn};
+import ${entityFqcn}Example;
+
+@Component
+public class ${resourceClassName}CrudServiceImpl implements ${resourceClassName}CrudService {
+
+    @Autowired
+    private ${entity}Mapper mapper;
+
+    @Override
+    public List<${entity}> get${entities}(PP page) {
+        ${entity}Example example = new ${entity}Example();
+        page.setTotalCount(mapper.countByExample(example));
+        RowBounds rowBounds = new RowBounds(page.offset(), page.limit());
+        return mapper.selectByExampleWithRowbounds(example, rowBounds);
+    }
+
+    @Override
+    public ${entity} get${entity}(long id) {
+        return mapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public ${entity} create(${entity} entity) {
+        mapper.insertSelective(entity);
+        return entity;
+    }
+
+    @Override
+    public ${entity} update(${entity} entity) {
+        mapper.updateByPrimaryKey(entity);
+        return entity;
+    }
+
+    @Override
+    public void delete(long id) {
+        mapper.deleteByPrimaryKey(id);
+    }
+}

@@ -1,0 +1,79 @@
+
+version = '1.0.0'
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.14.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'org.springframework.boot'
+	group = 'fondue'
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		// for Spring
+		compile('org.springframework.boot:spring-boot-starter-cache')
+		compile('org.springframework.boot:spring-boot-starter-jdbc')
+		compile('org.springframework.boot:spring-boot-starter-jersey')
+		compile('org.springframework.boot:spring-boot-starter-mail')
+		compile('org.springframework.boot:spring-boot-starter-security')
+		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+		compile('org.springframework.boot:spring-boot-starter-validation')
+		compile('org.springframework.boot:spring-boot-starter-web')
+		compile('org.springframework.session:spring-session')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+		testCompile('org.springframework.security:spring-security-test')
+		// for MyBatis
+		compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
+		compile('org.mybatis.generator:mybatis-generator-core:1.3.6')
+		// for Fondue
+		compile('org.apache.commons:commons-lang3:3.7')
+		compile('org.apache.velocity:velocity-engine-core:2.0')
+		compile('net.argius:minestra:1.2.0')
+		// for your app
+		compile('com.h2database:h2:1.4.196')
+	}
+
+	task help(type:JavaExec) {
+		main = 'fondue.cmd.HelpCommand'
+		classpath = sourceSets.main.runtimeClasspath
+	}
+
+	task genAll(type:JavaExec) {
+		main = 'fondue.cmd.GenAllCommand'
+		classpath = sourceSets.main.runtimeClasspath
+	}
+	
+	task genModel(type:JavaExec) {
+		main = 'fondue.cmd.GenModelFromMyBatisCommand'
+		classpath = sourceSets.main.runtimeClasspath
+	}
+	
+	task genCrud(type:JavaExec) {
+		main = 'fondue.cmd.GenCrudCommand'
+		classpath = sourceSets.main.runtimeClasspath
+	}
+}
+
+project(':framework') {
+}
+
+project(':examples:fondue-app1') {
+	dependencies {
+		compile project(':framework')
+	}
+}

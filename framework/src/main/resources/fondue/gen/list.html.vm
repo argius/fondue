@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>$entities</title>
+<style>
+@media screen and ( max-width:412px ) {
+	table th,
+	table td {
+		font-size: 60%;
+	}
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>$entities</p>
+	<div class="totalCount" th:unless="$#**#{page == null or page.isDisabled()}"><span th:text="#{message.foundNRecords($#**#{page.totalCount})}"></span></div>
+	<div class="paginationTop"><div th:include="pagination::compact('/${resources}/list')" th:class="paginationbar"></div></div>
+	<table>
+		<tr>
+			<th>-</th>
+#foreach( $item in $items )
+			<th><span th:text="${item.property}" th:remove="tag"></span></th>
+#end
+		</tr>
+		<tr th:each="item : ${#**#${resources}}">
+			<td><a href="dummy" th:href="@{/${resources}/get/{id}(id=$#**#{item.id})}" th:text="#{toDetail}">(DETAIL)</a></td>
+#foreach( $item in $items )
+	#if( $item.javaType.name == "java.sql.Timestamp" )
+			<td><span th:text="$#**#{item.${item.property}} ? ${#dates.format(item.${item.property}, 'yyyy-MM-dd HH:mm:ss.SSS')} : ''" th:remove="tag"></span></td>
+	#elseif( $item.column == "id" || $item.column == "disabled" )
+			<td><span th:text="$#**#{item.${item.property}}" th:remove="tag"></span></td>
+	#else
+			<td><span th:text="$#**#{#strings.abbreviate(item.${item.property},128)}" th:remove="tag"></span></td>
+	#end
+#end
+		</tr>
+	</table>
+	<p><a th:href="@{/${resources}/new}" th:text="#{createNew}"></a></p>
+	<div th:include="pagination::full('/${resources}/list')" th:class="paginationbar"></div>
+</div>
+</body>
+</html>

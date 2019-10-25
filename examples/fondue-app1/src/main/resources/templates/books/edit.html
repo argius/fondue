@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Edit Books</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>Books/<span th:text="${form.id}" th:remove="tag"></span> <span th:text="${form.id} ? update : create" th:remove="tag"></span></p>
+	<div>
+		<a href="books" th:href="@{/books/list}"><span th:text="#{toList}" th:remove="tag"></span></a>
+		<span th:if="${form.id}"><a href="books" th:href="@{/books/get/{id}(id=${form.id})}"><span th:text="#{toDetail}" th:remove="tag"></span></a></span>
+	</div>
+	<form th:action="${form.id} ? @{/books/update/{id}(id=${form.id})} : @{/books/create}" method="post" th:object="${form}">
+		<input type="submit" th:value="#{button.submit}"></input>
+		<table>
+			<tr>
+				<td>id</td>
+				<td>
+					<span th:text="${form.id}" th:remove="tag"></span>
+					<div th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>created</td>
+				<td>
+					<input type="text" th:field="*{created}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('created')}" th:errors="*{created}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>updated</td>
+				<td>
+					<input type="text" th:field="*{updated}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('updated')}" th:errors="*{updated}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>disabled</td>
+				<td>
+					<div th:include="fragments::radioDisabled(${form.disabled})"></div>
+					<div th:if="${#fields.hasErrors('disabled')}" th:errors="*{disabled}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>title</td>
+				<td>
+					<input type="text" th:field="*{title}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>author</td>
+				<td>
+					<input type="text" th:field="*{author}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>bookNumber</td>
+				<td>
+					<input type="text" th:field="*{bookNumber}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('bookNumber')}" th:errors="*{bookNumber}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>summary</td>
+				<td>
+					<input type="text" th:field="*{summary}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('summary')}" th:errors="*{summary}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>note</td>
+				<td>
+					<input type="text" th:field="*{note}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('note')}" th:errors="*{note}"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

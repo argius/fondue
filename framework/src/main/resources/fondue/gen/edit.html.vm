@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Edit $entities</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>$entities/<span th:text="$#**#{form.id}" th:remove="tag"></span> <span th:text="$#**#{form.id} ? update : create" th:remove="tag"></span></p>
+	<div>
+		<a href="$resources" th:href="@{/$resources/list}"><span th:text="#{toList}" th:remove="tag"></span></a>
+		<span th:if="$#**#{form.id}"><a href="$resources" th:href="@{/$resources/get/{id}(id=$#**#{form.id})}"><span th:text="#{toDetail}" th:remove="tag"></span></a></span>
+	</div>
+	<form th:action="$#**#{form.id} ? @{/$resources/update/{id}(id=$#**#{form.id})} : @{/$resources/create}" method="post" th:object="$#**#{form}">
+		<input type="submit" th:value="#{button.submit}"></input>
+		<table>
+#foreach( $item in $items )
+			<tr>
+				<td>${item.property}</td>
+				<td>
+#if( $item.property == "id" )
+					<span th:text="$#**#{form.id}" th:remove="tag"></span>
+#elseif( $item.property == "disabled" )
+					<div th:include="fragments::radioDisabled($#**#{form.disabled})"></div>
+#else
+					<input type="text" th:field="*{${item.property}}" th:errorclass="validation-error"></input>
+#end
+					<div th:if="${#fields.hasErrors('${item.property}')}" th:errors="*{${item.property}}"></div>
+				</td>
+			</tr>
+#end
+		</table>
+	</form>
+</div>
+</body>
+</html>

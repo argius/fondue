@@ -1,0 +1,19 @@
+<!-- common fragments -->
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+
+<div th:fragment="radioDisabled(value)">
+  <input type="radio" th:name="disabled" value="0" th:checked="${value == '0'}" th:errorclass="validation-error"/> 0: enabled
+  <input type="radio" th:name="disabled" value="1" th:checked="${value == '1'}" th:errorclass="validation-error"/> 1: disabled
+</div>
+
+<div th:fragment="inputTimestamp(name, value)">
+  <input type="text" th:name="${name}" th:value="${value}"/>
+  <button class="currentDateTimeButton" type="button">Paste Current Timestamp</button>
+</div>
+
+</html>

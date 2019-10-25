@@ -1,0 +1,24 @@
+package app.service;
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import fondue.fw.PP;
+import ${entityFqcn};
+
+@Service
+public interface ${resourceClassName}CrudService {
+
+    default List<${entity}> get${entities}() {
+        return get${entities}(new PP());
+    }
+
+    List<${entity}> get${entities}(PP page);
+
+    ${entity} get${entity}(long id);
+
+    ${entity} create(${entity} entity);
+
+    ${entity} update(${entity} entity);
+
+    void delete(long id);
+}
