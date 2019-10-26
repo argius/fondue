@@ -29,22 +29,24 @@ subprojects {
 
 	task help(type:JavaExec) {
 		main = 'fondue.cmd.HelpCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
 	}
 
 	task genAll(type:JavaExec) {
 		main = 'fondue.cmd.GenAllCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
+		classpath += files('src/main/resources/logback.xml')
 	}
-	
+
 	task genModel(type:JavaExec) {
 		main = 'fondue.cmd.GenModelFromMyBatisCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
 	}
-	
+
 	task genCrud(type:JavaExec) {
 		main = 'fondue.cmd.GenCrudCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
+		classpath += files('src/main/resources/logback.xml')
 	}
 }
 
