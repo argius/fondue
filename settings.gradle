@@ -1,2 +1,2 @@
 rootProject.name = 'fondue'
-include 'framework', 'examples:fondue-app1'
+include 'framework', 'app-base', 'examples:fondue-app1'
