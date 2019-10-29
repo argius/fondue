@@ -15,24 +15,6 @@ server:
   session:
     timeout: 10800
 
-security:
-  basic:
-    enabled: false
-  user:
-    password: jiji
-
 logging:
   level:
     app: DEBUG
-
-#  datasource:
-#    driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://leo.local:5432/
-#    username: postgres
-#    password: postgres
-
-#  datasource:
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:file:~/db/h2/pp;AUTO_SERVER=TRUE;MODE=PostgreSQL;IGNORECASE=TRUE;DATABASE_TO_UPPER=TRUE
-#    username: sa
-#    password: sa
