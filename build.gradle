@@ -21,6 +21,7 @@ subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'org.springframework.boot'
 	group = 'fondue'
+	sourceCompatibility = 1.8
 	repositories {
 		mavenCentral()
 	}
