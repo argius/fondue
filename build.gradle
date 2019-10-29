@@ -68,7 +68,8 @@ project(':framework') {
 project(':app-base') {
 	dependencies {
 		// for Spring
-		compile('org.springframework.boot:spring-boot-starter-security')
+		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+		// compile('org.springframework.boot:spring-boot-starter-security')
 		// compile('org.springframework.boot:spring-boot-starter-cache')
 		// compile('org.springframework.boot:spring-boot-starter-jdbc')
 		// compile('org.springframework.boot:spring-boot-starter-jersey')
