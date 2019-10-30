@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Remarks timeline</title>
+<style>
+ul#timeline {
+	padding-left: 1ex;
+}
+ul#timeline li {
+	list-style: none;
+	border: 1px solid silver;
+}
+#userId, #userName {
+	min-width: 60px;
+}
+.user-name {
+	font-weight: bold;
+}
+.user-id {
+	color: #999;
+	font-size: 80%;
+}
+.posted-timestamp {
+	font-size: 70%;
+}
+.remark-area {
+	padding: 1em;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script>
+
+// Caution: This is just sample code, and may not be practical for product development
+
+var millis = 0;
+
+function joinElement(id, elm) {
+  millis = elm.updated + 1;
+  var formattedUpdatedTime = moment(new Date(elm.updated)).format("YYYY-MM-DD HH:mm:ss");
+  setTimeout(function() {
+    var x = '<li><div>' 
+	      + '<span class="user-name">' + elm.userName + '</span>'
+	      + '<span class="user-id">@' + elm.userId + '</span>'
+	      + '<span class="posted-timestamp"> (' + formattedUpdatedTime + ')</span></div>'
+	      + '<div class="remark-area">' + elm.remark + '</div></li>';
+    var item = $(x);
+    item.hide().fadeIn(1000);
+    $('ul#timeline').prepend(item);
+  }, 200);
+}
+
+function postRemark() {
+  console.log("clicked");
+  var userId = $('#userId').val();
+  var userName = $('#userName').val();
+  var remark = $('#remark').val();
+  $('#remark').val('');
+  $.ajax({
+    type: 'post',
+    url: './',
+    data: JSON.stringify({ "userId": userId, "userName": userName, "remark": remark }),
+    contentType: 'application/json',
+    dataType: "json",
+    success: function(o) {
+    	  console.log("RES>>>" + JSON.stringify(o));
+      joinElement(o.id, o);
+    },
+    error: function() {
+    },
+    complete: function() {
+    }
+  });
+}
+
+$(function() {
+  $('#postButton').on('click', function() {
+    postRemark();
+  });
+  $.getJSON('./timeline/latest', {})
+   .done(function(data) {
+      if (data) {
+        $.each(data, joinElement);
+      }
+   });
+  setInterval(function() {
+    $.getJSON('./timeline/updated/' + millis, {})
+     .done(function(data) {
+        if (data) {
+          $.each(data, joinElement);
+        }
+     });
+  }, 10000); // every 10 seconds
+});
+
+</script>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>Remarks timeline</p>
+	<form action="#" onsubmit="return false;">
+		<input type="text" id="userId" value="YourID"/>
+		<input type="text" id="userName" value="YourName"/>
+		<textarea id="remark"></textarea>
+		<button id="postButton">POST</button>
+	</form>
+	<ul id="timeline">
+	</ul>
+</div>
+</body>
+</html>

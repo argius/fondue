@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<head>
+<meta charset="utf-8" />
+<title>Edit Remarks</title>
+</head>
+<body>
+<div layout:fragment="content">
+	<p>Remarks/<span th:text="${form.id}" th:remove="tag"></span> <span th:text="${form.id} ? update : create" th:remove="tag"></span></p>
+	<div>
+		<a href="remarks" th:href="@{/remarks/list}"><span th:text="#{toList}" th:remove="tag"></span></a>
+		<span th:if="${form.id}"><a href="remarks" th:href="@{/remarks/get/{id}(id=${form.id})}"><span th:text="#{toDetail}" th:remove="tag"></span></a></span>
+	</div>
+	<form th:action="${form.id} ? @{/remarks/update/{id}(id=${form.id})} : @{/remarks/create}" method="post" th:object="${form}">
+		<input type="submit" th:value="#{button.submit}"></input>
+		<table>
+			<tr>
+				<td>id</td>
+				<td>
+					<span th:text="${form.id}" th:remove="tag"></span>
+					<div th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>created</td>
+				<td>
+					<input type="text" th:field="*{created}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('created')}" th:errors="*{created}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>updated</td>
+				<td>
+					<input type="text" th:field="*{updated}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('updated')}" th:errors="*{updated}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>disabled</td>
+				<td>
+					<div th:include="fragments::radioDisabled(${form.disabled})"></div>
+					<div th:if="${#fields.hasErrors('disabled')}" th:errors="*{disabled}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>userId</td>
+				<td>
+					<input type="text" th:field="*{userId}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>userName</td>
+				<td>
+					<input type="text" th:field="*{userName}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+				</td>
+			</tr>
+			<tr>
+				<td>remark</td>
+				<td>
+					<input type="text" th:field="*{remark}" th:errorclass="validation-error"></input>
+					<div th:if="${#fields.hasErrors('remark')}" th:errors="*{remark}"></div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

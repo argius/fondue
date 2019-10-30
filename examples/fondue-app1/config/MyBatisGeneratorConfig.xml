@@ -38,6 +38,9 @@
     <table schema="app1" tableName="books" domainObjectName="Book">
       <generatedKey column="id" sqlStatement="JDBC" identity="true" />
     </table>
+    <table schema="app1" tableName="remarks" domainObjectName="Remark">
+      <generatedKey column="id" sqlStatement="JDBC" identity="true" />
+    </table>
     <!--  
      -->
 

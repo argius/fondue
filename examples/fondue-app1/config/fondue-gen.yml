@@ -26,3 +26,5 @@ funcs:
      - field: bookNumber
        type: Size
        appendingAttributes: max = 16
+ - name: remark
+   resourceName: remarks
