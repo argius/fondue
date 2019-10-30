@@ -51,7 +51,7 @@ subprojects {
 	}
 }
 
-project(':framework') {
+project(':fondue-framework') {
 	dependencies {
 		// for Spring
 		compile('org.springframework.boot:spring-boot-starter-web')
@@ -65,7 +65,7 @@ project(':framework') {
 	}
 }
 
-project(':app-base') {
+project(':fondue-app-base') {
 	dependencies {
 		// for Spring
 		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
@@ -79,13 +79,13 @@ project(':app-base') {
 		// for MyBatis
 		compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
 		// for Fondue
-		compile project(':framework')
+		compile project(':fondue-framework')
 	}
 }
 
 project(':examples:fondue-app1') {
 	dependencies {
-		compile project(':app-base')
+		compile project(':fondue-app-base')
 		// for your app
 		compile('com.h2database:h2:1.4.196')
 	}
