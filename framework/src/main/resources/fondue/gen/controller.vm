@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -109,7 +110,7 @@ public final class ${className} implements ControllerBase {
     @GetMapping()
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<${entity}> list(@ModelAttribute ${entity} body) {
+    public List<${entity}> list(@RequestBody ${entity} body) {
         return service.get${entities}();
     }
 
@@ -125,7 +126,7 @@ public final class ${className} implements ControllerBase {
     @PostMapping()
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public ${entity} post(@ModelAttribute ${entity} body) {
+    public ${entity} post(@RequestBody ${entity} body) {
         return service.create(body);
     }
 
@@ -133,7 +134,7 @@ public final class ${className} implements ControllerBase {
     @PutMapping("{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ${entity} put(@PathVariable long id, @ModelAttribute ${entity} body) {
+    public ${entity} put(@PathVariable long id, @RequestBody ${entity} body) {
         body.setId(id);
         service.update(body);
         return service.get${entity}(id);
