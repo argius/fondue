@@ -33,6 +33,11 @@ subprojects {
 		classpath = configurations.runtime
 	}
 
+	task initApp(type:JavaExec) {
+		main = 'fondue.cmd.InitAppCommand'
+		classpath = configurations.runtime
+	}
+
 	task genAll(type:JavaExec) {
 		main = 'fondue.cmd.GenAllCommand'
 		classpath = configurations.runtime
