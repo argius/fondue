@@ -60,9 +60,9 @@ If you want to create another new app, try  following operations.
 
 2. Add `applications:your-app` as an include project into setting.gradle, and add ` ':applications:your-app'` into build.gradle.
 
-3. Copy configuration files from sample app
+3. Run `gradle initApp` at your project.
 
-4. Run `gradle genModel genCrud` in your project. (If you want to use gradle wrapper, use `../../gradlew` or copy gradle files from sample app)
+4. Run `gradle genAll` (genModel and genCrud) at your project. (If you want to use gradle wrapper, use `../../gradlew` or copy gradle files from sample app)
 
 
 License
