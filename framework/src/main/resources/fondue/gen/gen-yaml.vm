@@ -1,0 +1,18 @@
+# Fondue Generator Config
+
+appName: ${config.appName}
+rootPkg: app
+
+preparationMode: NONE # BACKUP/OVERWRITE/NONE
+backupSettings:
+  directory: ./.bak
+  subDirectoryPattern: "%2$tY%2$tm%2$td_%2$tH%2$tM%2$tS_%3$02d" # 1: (empty), 2: Timestamp, 2: SeqNum
+  fileNamePattern: "{0}.bak" # 1: FileName, 2: Timestamp, 3: SeqNum
+
+# [NamePattern]
+#   Formatter-style: %1$s_%2$tY%2$tm%2$td_%3$02d
+#   MessageFormat-style {0}_{1,Date,yyyyMMddHHmmss}_{2,Number,00}
+
+funcs:
+ - name: dummy
+   resourceName: dummies
