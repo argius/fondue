@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
@@ -42,6 +44,17 @@ public final class GeneratorUtils {
             }
         }
         return defaultsSupplier.get();
+    }
+
+    static void makeDirectoriesIfParentNotExists(Path path) {
+        Path parent = path.getParent();
+        if (!Files.exists(parent)) {
+            try {
+                Files.createDirectories(parent);
+            } catch (IOException e) {
+                throw new UncheckedIOException(e);
+            }
+        }
     }
 
     /**
