@@ -9,9 +9,13 @@ import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -106,6 +110,34 @@ public final class ApplicationInitializer {
             File f = generateFile(ctx, typeId);
             System.out.println("file: " + f.getAbsolutePath());
         }
+        final Class<?> c = getClass();
+        List<Throwable> errors = new ArrayList<>();
+        System.out.println("  create java and resource files");
+        Stream.of("src/main/java/app/Application.java", "src/main/java/app/Config.java",
+                "src/main/resources/application.yml", "src/main/resources/messages.properties",
+                "src/main/resources/templates/layout.html", "src/main/resources/templates/pagination.html",
+                "src/main/resources/templates/fragments.html", "src/main/resources/static/css/style.css",
+                "src/main/resources/static/js/common.js").forEach(x -> {
+                    System.out.print("  >>> ");
+                    Path path = Paths.get(x);
+                    String name = PathString.name(path);
+                    String additionalExtension = (name.endsWith(".java")) ? ".txt" : "";
+                    try (InputStream is = c.getResourceAsStream("/fondue/init/" + name + additionalExtension)) {
+                        if (is == null) {
+                            System.out.println("resouce not found: file=" + name);
+                        } else {
+                            GeneratorUtils.makeDirectoriesIfParentNotExists(path);
+                            Files.copy(is, path);
+                            System.out.println("file: " + path.toAbsolutePath());
+                        }
+                    } catch (Throwable th) {
+                        errors.add(th);
+                    }
+                });
+        if (!errors.isEmpty()) {
+            String s = errors.stream().map(Object::toString).collect(Collectors.joining(", "));
+            throw new RuntimeException(s);
+        }
     }
 
     File generateFile(VelocityContext ctx, String templateTypeId) {
@@ -121,7 +153,7 @@ public final class ApplicationInitializer {
             throw new IllegalArgumentException("typeId: " + templateTypeId);
         }
         if (!f.getParentFile().exists()) {
-            f.mkdirs();
+            f.getParentFile().mkdirs();
         }
         Velocity.setProperty(VelocityEngine.RUNTIME_LOG_INSTANCE, NOPLogger.NOP_LOGGER);
         Properties props = new Properties();

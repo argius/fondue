@@ -55,14 +55,15 @@ $ ./gradlew help
 ```
 
 If you want to create another new app, try  following operations.
+ (If you want to use gradle wrapper, use `$(fondue-root)/gradlew` or copy gradle files from sample app)
+ 
+1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app`)
 
-1. Create a directory as your new project, and change directory to your project dir. (for instance, `$(fondue-root)/applications/your-app`)
+2. Run `gradle initApp` at your project.
 
-2. Add `applications:your-app` as an include project into setting.gradle, and add ` ':applications:your-app'` into build.gradle.
+3. Run `gradle genAll` (genModel and genCrud) at your project.
 
-3. Run `gradle initApp` at your project.
-
-4. Run `gradle genAll` (genModel and genCrud) at your project. (If you want to use gradle wrapper, use `../../gradlew` or copy gradle files from sample app)
+4. Run `gradle bootRun` to run your app.
 
 
 License

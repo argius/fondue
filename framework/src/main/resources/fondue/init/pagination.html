@@ -1,0 +1,84 @@
+<!-- fragment -->
+<!DOCTYPE html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layout">
+<div th:fragment="compact(path)">
+	<ul th:unless="${page == null or page.isDisabled()}">
+		<th:block th:unless="${page.isFirst()}">
+			<th:block th:if="${page.query == null}">
+				<li><a th:href="@{__${path}__(p=${1})}">&lt;&lt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.currentPage-1})}">&lt;</a></li>
+			</th:block>
+			<th:block th:if="${page.query != null}">
+				<li><a th:href="@{__${path}__(p=${1},q=${page.query})}">&lt;&lt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.currentPage-1},q=${page.query})}">&lt;</a></li>
+			</th:block>
+		</th:block>
+		<th:block th:if="${page.isFirst()}">
+			<li><span>&lt;&lt;</span></li>
+			<li><span>&lt;</span></li>
+		</th:block>
+		<li th:switch="${page.totalCount}">
+			<span th:case="0">-</span>
+			<span th:case="*">
+				<code th:text="${page.currentPage + '/' + page.lastPage}"></code>
+			</span>
+		</li>
+		<th:block th:unless="${page.isLast()}">
+			<th:block th:if="${page.query == null}">
+				<li><a th:href="@{__${path}__(p=${page.currentPage+1})}">&gt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.lastPage})}">&gt;&gt;</a></li>
+			</th:block>
+			<th:block th:if="${page.query != null}">
+				<li><a th:href="@{__${path}__(p=${page.currentPage+1},q=${page.query})}">&gt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.lastPage},q=${page.query})}">&gt;&gt;</a></li>
+			</th:block>
+		</th:block>
+		<th:block th:if="${page.isLast()}">
+			<li><span>&gt;</span></li>
+			<li><span>&gt;&gt;</span></li>
+		</th:block>
+	</ul>
+</div>
+<div th:fragment="full(path)">
+	<ul th:unless="${page == null or page.isDisabled()}">
+		<th:block th:unless="${page.isFirst()}">
+			<th:block th:if="${page.query == null}">
+				<li><a th:href="@{__${path}__(p=${1})}">&lt;&lt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.currentPage-1})}">&lt;</a></li>
+			</th:block>
+			<th:block th:if="${page.query != null}">
+				<li><a th:href="@{__${path}__(p=${1},q=${page.query})}">&lt;&lt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.currentPage-1},q=${page.query})}">&lt;</a></li>
+			</th:block>
+		</th:block>
+		<th:block th:if="${page.isFirst()}">
+			<li><span>&lt;&lt;</span></li>
+			<li><span>&lt;</span></li>
+		</th:block>
+		<th:block th:if="${page.query == null}">
+			<li th:each="i : ${#numbers.sequence(1, page.lastPage)}"><a th:href="@{__${path}__(p=${i})}" th:text="${i}" th:if="${page.currentPage!=i}"></a><span class="curr" th:text="${i}" th:if="${page.currentPage==i}"></span></li>
+		</th:block>
+		<th:block th:if="${page.query != null}">
+			<li th:each="i : ${#numbers.sequence(1, page.lastPage)}"><a th:href="@{__${path}__(p=${i},q=${page.query})}" th:text="${i}" th:if="${page.currentPage!=i}"></a><span class="curr" th:text="${i}" th:if="${page.currentPage==i}"></span></li>
+		</th:block>
+		<th:block th:unless="${page.isLast()}">
+			<th:block th:if="${page.query == null}">
+				<li><a th:href="@{__${path}__(p=${page.currentPage+1})}">&gt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.lastPage})}">&gt;&gt;</a></li>
+			</th:block>
+			<th:block th:if="${page.query != null}">
+				<li><a th:href="@{__${path}__(p=${page.currentPage+1},q=${page.query})}">&gt;</a></li>
+				<li><a th:href="@{__${path}__(p=${page.lastPage},q=${page.query})}">&gt;&gt;</a></li>
+			</th:block>
+		</th:block>
+		<th:block th:if="${page.isLast()}">
+			<li><span>&gt;</span></li>
+			<li><span>&gt;&gt;</span></li>
+		</th:block>
+	</ul>
+</div>
+</html>
