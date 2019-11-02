@@ -1,5 +1,5 @@
 
-version = '1.0.0'
+version = '1.1.0'
 
 buildscript {
 	ext {
@@ -21,59 +21,76 @@ subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'org.springframework.boot'
 	group = 'fondue'
+	sourceCompatibility = 1.8
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
-		// for Spring
-		compile('org.springframework.boot:spring-boot-starter-cache')
-		compile('org.springframework.boot:spring-boot-starter-jdbc')
-		compile('org.springframework.boot:spring-boot-starter-jersey')
-		compile('org.springframework.boot:spring-boot-starter-mail')
-		compile('org.springframework.boot:spring-boot-starter-security')
-		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-		compile('org.springframework.boot:spring-boot-starter-validation')
-		compile('org.springframework.boot:spring-boot-starter-web')
-		compile('org.springframework.session:spring-session')
-		testCompile('org.springframework.boot:spring-boot-starter-test')
-		testCompile('org.springframework.security:spring-security-test')
-		// for MyBatis
-		compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
-		compile('org.mybatis.generator:mybatis-generator-core:1.3.6')
-		// for Fondue
-		compile('org.apache.commons:commons-lang3:3.7')
-		compile('org.apache.velocity:velocity-engine-core:2.0')
-		compile('net.argius:minestra:1.2.0')
-		// for your app
-		compile('com.h2database:h2:1.4.196')
 	}
 
 	task help(type:JavaExec) {
 		main = 'fondue.cmd.HelpCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
+	}
+
+	task initApp(type:JavaExec) {
+		main = 'fondue.cmd.InitAppCommand'
+		classpath = configurations.runtime
 	}
 
 	task genAll(type:JavaExec) {
 		main = 'fondue.cmd.GenAllCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
+		classpath += files('src/main/resources/logback.xml')
 	}
-	
+
 	task genModel(type:JavaExec) {
 		main = 'fondue.cmd.GenModelFromMyBatisCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
 	}
-	
+
 	task genCrud(type:JavaExec) {
 		main = 'fondue.cmd.GenCrudCommand'
-		classpath = sourceSets.main.runtimeClasspath
+		classpath = configurations.runtime
+		classpath += files('src/main/resources/logback.xml')
 	}
 }
 
-project(':framework') {
+project(':fondue-framework') {
+	dependencies {
+		// for Spring
+		compile('org.springframework.boot:spring-boot-starter-web')
+		testCompile('org.springframework.boot:spring-boot-starter-test')
+		// for MyBatis
+		compile('org.mybatis.generator:mybatis-generator-core:1.3.6')
+		// for Fondue
+		compile('org.apache.velocity:velocity-engine-core:2.0')
+		compile('net.argius:minestra:1.2.0')
+	}
+}
+
+project(':fondue-app-base') {
+	dependencies {
+		// for Spring
+		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+		// compile('org.springframework.boot:spring-boot-starter-security')
+		// compile('org.springframework.boot:spring-boot-starter-cache')
+		// compile('org.springframework.boot:spring-boot-starter-jdbc')
+		// compile('org.springframework.boot:spring-boot-starter-jersey')
+		// compile('org.springframework.boot:spring-boot-starter-mail')
+		// compile('org.springframework.session:spring-session')
+
+		// for MyBatis
+		compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.1')
+		// for Fondue
+		compile project(':fondue-framework')
+	}
 }
 
 project(':examples:fondue-app1') {
 	dependencies {
-		compile project(':framework')
+		compile project(':fondue-app-base')
+		// for your app
+		compile('com.h2database:h2:1.4.196')
 	}
 }

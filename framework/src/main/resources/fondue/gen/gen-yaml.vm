@@ -1,5 +1,6 @@
+# Fondue Generator Config
 
-appName: app1
+appName: ${config.appName}
 rootPkg: app
 
 preparationMode: NONE # BACKUP/OVERWRITE/NONE
@@ -13,18 +14,5 @@ backupSettings:
 #   MessageFormat-style {0}_{1,Date,yyyyMMddHHmmss}_{2,Number,00}
 
 funcs:
- - name: book
-   resourceName: books
-   groupBy: # not implemented
-   validations:
-     - field: title
-       type: Size
-       appendingAttributes: min = 1
-     - field: bookNumber
-       type: Pattern
-       appendingAttributes: regexp = "^\\d*$"
-     - field: bookNumber
-       type: Size
-       appendingAttributes: max = 16
- - name: remark
-   resourceName: remarks
+ - name: dummy
+   resourceName: dummies

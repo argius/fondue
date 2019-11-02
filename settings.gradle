@@ -1,2 +1,5 @@
 rootProject.name = 'fondue'
-include 'framework', 'examples:fondue-app1'
+include 'fondue-framework', 'fondue-app-base', 'examples:fondue-app1'
+
+project(':fondue-framework').projectDir = file('framework')
+project(':fondue-app-base').projectDir = file('app-base')

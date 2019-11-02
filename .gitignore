@@ -1,0 +1,7 @@
+*.bak
+.idea/
+.project
+.classpath
+.settings
+bin/
+build/

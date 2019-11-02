@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -108,7 +109,7 @@ public final class BookCrudController implements ControllerBase {
     @GetMapping()
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Book> list(@ModelAttribute Book body) {
+    public List<Book> list(@RequestBody Book body) {
         return service.getBooks();
     }
 
@@ -124,7 +125,7 @@ public final class BookCrudController implements ControllerBase {
     @PostMapping()
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Book post(@ModelAttribute Book body) {
+    public Book post(@RequestBody Book body) {
         return service.create(body);
     }
 
@@ -132,7 +133,7 @@ public final class BookCrudController implements ControllerBase {
     @PutMapping("{id}")
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Book put(@PathVariable long id, @ModelAttribute Book body) {
+    public Book put(@PathVariable long id, @RequestBody Book body) {
         body.setId(id);
         service.update(body);
         return service.getBook(id);
