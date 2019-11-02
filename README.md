@@ -57,7 +57,7 @@ $ ./gradlew help
 If you want to create another new app, try  following operations.
  (If you want to use gradle wrapper, use `$(fondue-root)/gradlew` or copy gradle files from sample app)
  
-1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app`)
+1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app; cd applications/your-app`)
 
 2. Run `gradle initApp` at your project.
 
