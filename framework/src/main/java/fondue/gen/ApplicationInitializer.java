@@ -121,7 +121,7 @@ public final class ApplicationInitializer {
             throw new IllegalArgumentException("typeId: " + templateTypeId);
         }
         if (!f.getParentFile().exists()) {
-            f.mkdirs();
+            f.getParentFile().mkdirs();
         }
         Velocity.setProperty(VelocityEngine.RUNTIME_LOG_INSTANCE, NOPLogger.NOP_LOGGER);
         Properties props = new Properties();
