@@ -1,0 +1,34 @@
+#!/bin/sh
+
+dir=$1
+proj_name=`echo $dir | sed 's/\//\:/'`
+
+if [ "$#" = 0 ]; then
+  echo "usage: $0 <project-name>"
+  exit 0
+fi
+
+errexit() {
+  echo $1
+  exit 1
+}
+cp -n build.gradle build.gradle.`date "+%Y%m%d_%H%M%S"`
+cp -n settings.gradle settings.gradle.`date "+%Y%m%d_%H%M%S"`
+
+mkdir -p $1 || errexit "failed to mkdir, dir=[$1]"
+
+(
+  echo ""
+  echo "project(':${proj_name}') {"
+  echo "        dependencies {"
+  echo "                compile project(':fondue-app-base')"
+  cat build.gradle | grep compile..com.h2database | head -n 1
+  echo "        }"
+  echo "}"
+) >> build.gradle
+
+(
+  echo "include '${proj_name}'"
+) >> settings.gradle
+
+echo "A project '$proj_name' has been added."
