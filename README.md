@@ -35,6 +35,8 @@ Download source codes and import into your IDE.
 Get Started
 -----------
 
+*Caution* : The current version is not supported Gradle 5.x, use 4.x or 3.x.
+
 1. Prepare a database
 
   See examples/fondue-app1/config/ddl-sql.txt
