@@ -20,6 +20,7 @@ mkdir -p $1 || errexit "failed to mkdir, dir=[$1]"
 (
   echo ""
   echo "project(':${proj_name}') {"
+  echo "\tapply plugin: 'org.springframework.boot'"
   echo "\tdependencies {"
   echo "\t\tcompile project(':fondue-app-base')"
   cat build.gradle | grep compile..com.h2database | head -n 1

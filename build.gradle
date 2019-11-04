@@ -3,7 +3,7 @@ version = '1.2.0-SNAPSHOT'
 
 buildscript {
 	ext {
-		springBootVersion = '1.5.14.RELEASE'
+		springBootVersion = '2.2.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -18,14 +18,19 @@ buildscript {
 
 subprojects {
 	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'eclipse'
-	apply plugin: 'org.springframework.boot'
 	group = 'fondue'
 	sourceCompatibility = 1.8
 	repositories {
 		mavenCentral()
 	}
 	dependencies {
+	}
+	dependencyManagement {
+		imports {
+			mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+		}
 	}
 
 	task help(type:JavaExec) {
@@ -73,6 +78,7 @@ project(':fondue-app-base') {
 	dependencies {
 		// for Spring
 		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+		compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.4.1')
 		// compile('org.springframework.boot:spring-boot-starter-security')
 		// compile('org.springframework.boot:spring-boot-starter-cache')
 		// compile('org.springframework.boot:spring-boot-starter-jdbc')
@@ -88,6 +94,7 @@ project(':fondue-app-base') {
 }
 
 project(':examples:fondue-app1') {
+	apply plugin: 'org.springframework.boot'
 	dependencies {
 		compile project(':fondue-app-base')
 		// for your app
