@@ -21,6 +21,7 @@ Fondue has 3 features;
    * Pagination
    * Conversion between Form and Model
    * Display information message by type
+   * Minimum settings for running boot app
 
 For more information, see examples and wiki.
 
@@ -34,6 +35,8 @@ Download source codes and import into your IDE.
 
 Get Started
 -----------
+
+*Caution* : The current version is not supported Gradle 5.x, use 4.x or 3.x.
 
 1. Prepare a database
 
@@ -57,7 +60,7 @@ $ ./gradlew help
 If you want to create another new app, try  following operations.
  (If you want to use gradle wrapper, use `$(fondue-root)/gradlew` or copy gradle files from sample app)
  
-1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app`)
+1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app; cd applications/your-app`)
 
 2. Run `gradle initApp` at your project.
 
