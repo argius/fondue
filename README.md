@@ -21,6 +21,7 @@ Fondue has 3 features;
    * Pagination
    * Conversion between Form and Model
    * Display information message by type
+   * Minimum settings for running boot app
 
 For more information, see examples and wiki.
 
