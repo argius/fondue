@@ -98,6 +98,6 @@ project(':examples:fondue-app1') {
 	dependencies {
 		compile project(':fondue-app-base')
 		// for your app
-		compile('com.h2database:h2:1.4.196')
+		compile('com.h2database:h2:1.4.199')
 	}
 }
