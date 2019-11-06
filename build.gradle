@@ -34,27 +34,32 @@ subprojects {
 	}
 
 	task showHelp(type:JavaExec) {
+		description = 'Shows (this) help.'
 		main = 'fondue.cmd.HelpCommand'
 		classpath = configurations.runtime
 	}
 
 	task initApp(type:JavaExec) {
+		description = 'Initializes App for Spring and Fondue.'
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
 	}
 
 	task genAll(type:JavaExec) {
+		description = 'Runs genModel and genCrud.'
 		main = 'fondue.cmd.GenAllCommand'
 		classpath = configurations.runtime
 		classpath += files('src/main/resources/logback.xml')
 	}
 
 	task genModel(type:JavaExec) {
+		description = 'Generates models for MyBatis.'
 		main = 'fondue.cmd.GenModelFromMyBatisCommand'
 		classpath = configurations.runtime
 	}
 
 	task genCrud(type:JavaExec) {
+		description = 'Generates CRUDs for Spring and Fondue.'
 		main = 'fondue.cmd.GenCrudCommand'
 		classpath = configurations.runtime
 		classpath += files('src/main/resources/logback.xml')
