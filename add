@@ -20,10 +20,10 @@ mkdir -p $1 || errexit "failed to mkdir, dir=[$1]"
 (
   echo ""
   echo "project(':${proj_name}') {"
-  echo "\tdependencies {"
-  echo "\t\tcompile project(':fondue-app-base')"
+  echo "	dependencies {"
+  echo "		compile project(':fondue-app-base')"
   cat build.gradle | grep compile..com.h2database | head -n 1
-  echo "\t}"
+  echo "	}"
   echo "}"
 ) >> build.gradle
 
