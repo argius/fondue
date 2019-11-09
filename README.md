@@ -18,55 +18,63 @@ Fondue has 3 features;
    * detail.html
    * edit.html
  3. Sub framework for Spring Boot
-   * Pagination
+   * Pagination (yet another one)
    * Conversion between Form and Model
    * Display information message by type
    * Minimum settings for running boot app
 
-For more information, see examples and wiki.
+For more information, see examples and [wiki pages](https://github.com/argius/fondue/wiki).
 
 
 Installation
 ------------
 
-Fondue does not support installation so far.
-Download source codes and import into your IDE.
+Fondue does not support installation so far.  
+Download source codes from [the release page](https://github.com/argius/fondue/releases) and import into your IDE (with `gradle eclipse` command).
 
 
 Get Started
 -----------
 
-*Caution* : The current version is not supported Gradle 5.x, use 4.x or 3.x.
+It requires `gradle` version 4.10 or higher.  
+If not installed gradle, use `./gradlew` instead.
 
-1. Prepare a database
+## To run the app in examples
 
-  See examples/fondue-app1/config/ddl-sql.txt
+To run fondue-app1;
 
-
-2. Create `MyBatisGeneratorConfig.xml` and run `genModel`
-
-3. Create `fondue-gen.yml` and run `genCrud`
-
-4. Run the project as Spring Boot app
+1. Prepare a database contains 2 tables. (See ./fondue-app1/config/ddl-sql.txt)
+2. Run `gradle bootRun` to run fondue-app1.
 
 
-To see help of Generator, run following commands.
+## To create a new app
+
+1. Prepare a database contains a table 'app1.dummies'. (See Wiki)
+2. Run `./add <app-name>` at fondue-root directory. (and `cd <app-name>`)
+3. Run `gradle initApp` at your project.
+4. Run `gradle genAll` (genModel and genCrud) at your project.
+5. Run `gradle bootRun` to run your app.
+6. Configure `MyBatisGeneratorConfig.xml` and `fondue-gen.yml`
+7. Repeat from #4
+
+
+### Command Line Examples
 
 ```
-$ cd examples/fondue-app1
-$ ./gradlew help
+# pwd=fondue-root
+$ ./add test1
+$ ./gradlew test1:initApp
+$ ./gradlew test1:genAll
+$ ./gradlew test1:bootApp
 ```
 
-If you want to create another new app, try  following operations.
- (If you want to use gradle wrapper, use `$(fondue-root)/gradlew` or copy gradle files from sample app)
- 
-1. Run `./add <project-path>` at `$(fondue-root)` directory, and change the directory. (for instance, `cd $(fondue-root); ./add applications/your-app; cd applications/your-app`)
+```
+# help command
 
-2. Run `gradle initApp` at your project.
-
-3. Run `gradle genAll` (genModel and genCrud) at your project.
-
-4. Run `gradle bootRun` to run your app.
+$ ./gradlew examples:fondue-app1:showHelp
+# or
+$ ./gradlew -q tasks
+```
 
 
 License
