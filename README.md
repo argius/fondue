@@ -18,7 +18,7 @@ Fondue has 3 features;
    * detail.html
    * edit.html
  3. Sub framework for Spring Boot
-   * Pagination
+   * Pagination (yet another one)
    * Conversion between Form and Model
    * Display information message by type
    * Minimum settings for running boot app
