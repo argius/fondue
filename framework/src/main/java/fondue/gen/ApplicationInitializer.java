@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -25,6 +26,8 @@ import minestra.text.LetterCaseConverter;
 
 public final class ApplicationInitializer {
 
+    private static final String DEFAULT_ROOT_PKG = "app";
+ 
     private static Properties msg = initMsg();
 
     private Config config;
@@ -61,6 +64,20 @@ public final class ApplicationInitializer {
         this.config = new Config();
         this.rootDir = rootDir;
         config.setAppName(appName);
+        config.setRootPkg(getRootPkgFromTaskCaller());
+    }
+
+    static String getRootPkgFromTaskCaller() {
+        final String key = "fondue.rootPkg";
+        final String x = Optional.ofNullable(System.getenv(key)).orElseGet(() -> System.getProperty(key, ""));
+        if (StringUtils.isNotBlank(x)) {
+            if (GeneratorUtils.isValidPackageName(x)) {
+                return x;
+            } else {
+                throw new IllegalArgumentException("rootPkg=" + x);
+            }
+        }
+        return DEFAULT_ROOT_PKG;
     }
 
     public static void generate(Optional<String> optAppName, Path rootDir) {
@@ -105,7 +122,7 @@ public final class ApplicationInitializer {
         }
         System.out.println("  create config files");
         VelocityContext ctx = createVelocityContext(config);
-        for (String typeId : Arrays.asList("gen-yaml", "MyBatisGeneratorConfig")) {
+        for (String typeId : Arrays.asList("gen-yaml", "MyBatisGeneratorConfig", "Application.java", "Config.java")) {
             System.out.print("  >>> ");
             File f = generateFile(ctx, typeId);
             System.out.println("file: " + f.getAbsolutePath());
@@ -113,8 +130,7 @@ public final class ApplicationInitializer {
         final Class<?> c = getClass();
         List<Throwable> errors = new ArrayList<>();
         System.out.println("  create java and resource files");
-        Stream.of("src/main/java/app/Application.java", "src/main/java/app/Config.java",
-                "src/main/resources/application.yml", "src/main/resources/messages.properties",
+        Stream.of("src/main/resources/application.yml", "src/main/resources/messages.properties",
                 "src/main/resources/templates/layout.html", "src/main/resources/templates/pagination.html",
                 "src/main/resources/templates/fragments.html", "src/main/resources/static/css/style.css",
                 "src/main/resources/static/js/common.js").forEach(x -> {
@@ -148,6 +164,11 @@ public final class ApplicationInitializer {
             break;
         case "MyBatisGeneratorConfig":
             f = new File("config", "MyBatisGeneratorConfig.xml");
+            break;
+        case "Application.java":
+        case "Config.java":
+            File dir = new File("src/main/java", config.getRootPkg().replace('.', '/'));
+            f = new File(dir, templateTypeId);
             break;
         default:
             throw new IllegalArgumentException("typeId: " + templateTypeId);

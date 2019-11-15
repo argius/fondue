@@ -2,6 +2,8 @@ package fondue.gen;
 
 import static fondue.gen.GeneratorUtils.formatPathPatternString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.junit.Test;
 
@@ -31,5 +33,14 @@ public final class GeneratorUtilsTest {
         final String yyyyMMdd = FastDateFormat.getInstance("yyyyMMdd").format(System.currentTimeMillis());
         assertEquals("x_" + yyyyMMdd, formatPathPatternString("%1$s_%2$tY%2$tm%2$td", "x"));
         assertEquals("x_" + yyyyMMdd, formatPathPatternString("{0}_{1,Date,yyyyMMdd}", "x"));
+    }
+
+    @Test
+    public void testIsValidPackageName() {
+        assertTrue(GeneratorUtils.isValidPackageName("net.argius.webapp"));
+        assertFalse(GeneratorUtils.isValidPackageName(".app"));
+        assertFalse(GeneratorUtils.isValidPackageName("0app"));
+        assertTrue(GeneratorUtils.isValidPackageName("app0"));
+        assertTrue(GeneratorUtils.isValidPackageName("app._myPackage"));
     }
 }

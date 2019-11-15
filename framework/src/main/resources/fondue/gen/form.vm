@@ -1,5 +1,5 @@
 #set( $className = $resourceClassName + "Form" )
-package app.controller;
+package ${rootPkg}.controller;
 
 #if( !$validationBinder.isEmpty() )
 import javax.validation.constraints.*;

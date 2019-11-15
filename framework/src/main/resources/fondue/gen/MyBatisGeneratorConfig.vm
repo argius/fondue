@@ -19,18 +19,18 @@
     </jdbcConnection>
 
     <!-- Model -->
-    <javaModelGenerator targetPackage="app.model" targetProject="./src/main/java">
+    <javaModelGenerator targetPackage="${config.rootPkg}.model" targetProject="./src/main/java">
       <property name="enableSubPackages" value="false" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
 
     <!-- Mapper XML -->
-    <sqlMapGenerator targetPackage="app.dao" targetProject="./src/main/resources">
+    <sqlMapGenerator targetPackage="${config.rootPkg}.dao" targetProject="./src/main/resources">
       <property name="enableSubPackages" value="false" />
     </sqlMapGenerator>
 
     <!-- Mapper Client -->
-    <javaClientGenerator type="MIXEDMAPPER" targetPackage="app.dao" targetProject="./src/main/java">
+    <javaClientGenerator type="MIXEDMAPPER" targetPackage="${config.rootPkg}.dao" targetProject="./src/main/java">
       <property name="enableSubPackages" value="false" />
     </javaClientGenerator>
 

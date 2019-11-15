@@ -1,5 +1,5 @@
 #set( $className = $resourceClassName + "CrudController" )
-package app.controller;
+package ${rootPkg}.controller;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,7 +28,7 @@ import fondue.fw.MessageType;
 import fondue.fw.PA;
 import fondue.fw.PP;
 import ${entityFqcn};
-import app.service.${resourceClassName}CrudService;
+import ${config.rootPkg}.service.${resourceClassName}CrudService;
 
 @Controller
 @RequestMapping("${resources}")
