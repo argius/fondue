@@ -57,6 +57,14 @@ To run fondue-app1;
 6. Configure `MyBatisGeneratorConfig.xml` and `fondue-gen.yml`
 7. Repeat from #4
 
+To specify rootPkg when initializing app ('initApp'), use 'fondue.rootPkg' as env or system property.  
+See the following snippet.
+
+```
+$ env fondue.rootPkg="net.argius.webapp.f1" ./gradlew test1:initApp
+# or
+$ ./gradlew test1:initApp -Dfondue.rootPkg="net.argius.webapp.f1"
+```
 
 ### Command Line Examples
 
