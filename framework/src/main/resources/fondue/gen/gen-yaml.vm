@@ -1,7 +1,7 @@
 # Fondue Generator Config
 
 appName: ${config.appName}
-rootPkg: app
+rootPkg: ${config.rootPkg}
 
 preparationMode: NONE # BACKUP/OVERWRITE/NONE
 backupSettings:

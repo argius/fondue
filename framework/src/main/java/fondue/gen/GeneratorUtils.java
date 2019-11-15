@@ -97,6 +97,19 @@ public final class GeneratorUtils {
         return seq.incrementAndGet();
     }
 
+    static boolean isValidPackageName(String packageName) {
+        if (packageName == null) {
+            return false;
+        }
+        String[] a = packageName.split("\\.");
+        for (String s : a) {
+            if (!s.matches("[A-Za-z_][A-Za-z0-9_]*")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Converts the singular form of the word to plural form.
      * Not supported for some illegular pattarns.

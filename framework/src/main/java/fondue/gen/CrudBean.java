@@ -5,6 +5,7 @@ import fondue.gen.Config.Validation;
 
 public final class CrudBean extends BaseBean {
 
+    private String rootPkg;
     private String entityId;
     private String entitiesId;
     private String resourceId;
@@ -12,6 +13,14 @@ public final class CrudBean extends BaseBean {
     private String entityFqcn;
     private List<MyBatisMapperXmlBean.Result> items;
     private List<Validation> validations;
+
+    public String getRootPkg() {
+        return rootPkg;
+    }
+
+    public void setRootPkg(String rootPkg) {
+        this.rootPkg = rootPkg;
+    }
 
     public String getEntityId() {
         return entityId;
