@@ -43,6 +43,7 @@ subprojects {
 		description = 'Initializes App for Spring and Fondue.'
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
+		systemProperty 'fondue.rootPkg', System.getProperty('fondue.rootPkg')
 	}
 
 	task genAll(type:JavaExec) {

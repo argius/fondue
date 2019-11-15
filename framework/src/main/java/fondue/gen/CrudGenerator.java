@@ -53,6 +53,7 @@ public final class CrudGenerator {
             System.out.println("  func: " + func.getName());
             CrudBean cb = createCrudBean(func);
             VelocityContext ctx = createVelocityContext(cb);
+            ctx.put("config", config);
             System.out.println("    start gen");
             for (String templateTypeId : templateTypeIds) {
                 System.out.print(">>> ");
@@ -154,6 +155,7 @@ public final class CrudGenerator {
     static VelocityContext createVelocityContext(CrudBean cb) {
         VelocityContext ctx = new VelocityContext();
         ctx.put("bean", cb);
+        ctx.put("rootPkg", cb.getRootPkg());
         ctx.put("entity", cb.getEntityId());
         ctx.put("entities", cb.getEntitiesId());
         ctx.put("entityFqcn", cb.getEntityFqcn());
@@ -177,6 +179,7 @@ public final class CrudGenerator {
         final String resourcesId = GeneratorUtils.select(StringUtils::isNotBlank, func::getResourceName,
                 () -> GeneratorUtils.convertToPluralForm(resourceId));
         CrudBean cb = new CrudBean();
+        cb.setRootPkg(config.getRootPkg());
         cb.setEntityId(entityName);
         cb.setEntitiesId(GeneratorUtils.convertToPluralForm(entityName));
         cb.setResourceId(resourceId);
