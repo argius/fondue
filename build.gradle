@@ -46,17 +46,17 @@ subprojects {
 		systemProperty 'fondue.rootPkg', System.getProperty('fondue.rootPkg')
 	}
 
-	task genAll(type:JavaExec) {
-		description = 'Runs genModel and genCrud.'
-		main = 'fondue.cmd.GenAllCommand'
-		classpath = configurations.runtime
-		classpath += files('src/main/resources/logback.xml')
-	}
-
 	task genModel(type:JavaExec) {
 		description = 'Generates models for MyBatis.'
-		main = 'fondue.cmd.GenModelFromMyBatisCommand'
+		main = 'org.mybatis.generator.api.ShellRunner'
 		classpath = configurations.runtime
+		args('-configfile', 'config/MyBatisGeneratorConfig.xml', '-overwrite')
+		doFirst {
+			println 'fondue genModel: Generating Model files by MyBatis Generator ...'
+		}
+		doLast {
+			println 'fondue genModel: Finished.'
+		}
 	}
 
 	task genCrud(type:JavaExec) {
@@ -64,6 +64,12 @@ subprojects {
 		main = 'fondue.cmd.GenCrudCommand'
 		classpath = configurations.runtime
 		classpath += files('src/main/resources/logback.xml')
+	}
+
+	genCrud.mustRunAfter genModel
+
+	task genAll(dependsOn: ['genModel', 'genCrud']) {
+		description = 'Runs genModel and genCrud.'
 	}
 }
 

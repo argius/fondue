@@ -1,5 +1,6 @@
 package fondue.gen;
 
+@Deprecated
 public final class ModelFromMyBatisGenerator {
 
     private ModelFromMyBatisGenerator() {
