@@ -19,6 +19,13 @@
 <body>
 <div layout:fragment="content">
 	<p>$entities</p>
+#if( $dao )
+	<form id="searchForm" th:action="@{/${resources}/list}" method="get" th:object="$#**#{form}">
+		Query:
+		<input type="text" th:name="q" th:value="$#**#{param.q == null} ? $#**#{''} : $#**#{#strings.listJoin(param.q, ' ')}" />
+		<input type="submit" value="Search"/>
+	</form>
+#end
 	<div class="totalCount" th:unless="$#**#{page == null or page.isDisabled()}"><span th:text="#{message.foundNRecords($#**#{page.totalCount})}"></span></div>
 	<div class="paginationTop"><div th:include="pagination::compact('/${resources}/list')" th:class="paginationbar"></div></div>
 	<table>

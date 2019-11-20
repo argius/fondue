@@ -1,26 +1,48 @@
 package ${rootPkg}.service;
 
+#if( $dao )
+import java.util.Arrays;
+import java.util.Collections;
+#end
 import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import fondue.fw.PP;
+#if( $dao )
+import ${entityFqcn.replace(".model.", ".dao.")}Dao;
+#end
 import ${entityFqcn.replace(".model.", ".dao.")}Mapper;
 import ${entityFqcn};
+#if( !$dao )
 import ${entityFqcn}Example;
+#end
 
 @Component
 public class ${resourceClassName}CrudServiceImpl implements ${resourceClassName}CrudService {
 
     @Autowired
     private ${entity}Mapper mapper;
+#if( $dao )
+
+    @Autowired
+    private ${entity}Dao dao;
+#end
 
     @Override
     public List<${entity}> get${entities}(PP page) {
+#if( $dao )
+        String q = page.getQuery();
+        List<String> keywords = (q == null) ? Collections.emptyList() : Arrays.asList(q.split("\\s"));
+        page.setTotalCount(dao.countByKeywords(keywords));
+        RowBounds rowBounds = new RowBounds(page.offset(), page.limit());
+        return dao.selectByKeywordsWithRowbounds(keywords, rowBounds);
+#else
         ${entity}Example example = new ${entity}Example();
         page.setTotalCount(mapper.countByExample(example));
         RowBounds rowBounds = new RowBounds(page.offset(), page.limit());
         return mapper.selectByExampleWithRowbounds(example, rowBounds);
+#end
     }
 
     @Override
