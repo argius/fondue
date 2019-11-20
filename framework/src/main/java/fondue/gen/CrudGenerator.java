@@ -29,6 +29,7 @@ import org.xml.sax.SAXException;
 import fondue.gen.Config.BackupSettings;
 import fondue.gen.Config.Func;
 import fondue.gen.Config.Validation;
+import minestra.file.PathString;
 import minestra.text.LetterCaseConverter;
 
 public final class CrudGenerator {
@@ -145,7 +146,13 @@ public final class CrudGenerator {
             throw new IllegalStateException("BackupSettings is null");
         }
         Path directoryPath = settings.getDirectoryPath();
-        String fileName = GeneratorUtils.formatPathPatternString(settings.getFileNamePattern(), f.getName());
+        String prefix;
+        if (PathString.of(f.toPath()).hasExtension("html")) {
+            prefix = f.getParentFile().getName() + "_";
+        }else {
+            prefix = "";
+        }
+        String fileName = prefix + GeneratorUtils.formatPathPatternString(settings.getFileNamePattern(), f.getName());
         Path p = directoryPath.resolve(fileName);
         try {
             if (!Files.exists(directoryPath)) {
