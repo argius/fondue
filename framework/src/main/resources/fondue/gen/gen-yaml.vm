@@ -6,7 +6,7 @@ rootPkg: ${config.rootPkg}
 preparationMode: NONE # BACKUP/OVERWRITE/NONE
 backupSettings:
   directory: ./.bak
-  subDirectoryPattern: "%2$tY%2$tm%2$td_%2$tH%2$tM%2$tS_%3$02d" # 1: (empty), 2: Timestamp, 2: SeqNum
+  subDirectoryPattern: "%2$tY%2$tm%2$td_%2$tH%2$tM%2$tS_%3$02d" # 1: (empty), 2: Timestamp, 3: SeqNum
   fileNamePattern: "{0}.bak" # 1: FileName, 2: Timestamp, 3: SeqNum
 
 # [NamePattern]
