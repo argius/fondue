@@ -47,7 +47,7 @@ public final class CrudGenerator {
     }
 
     public void generateCruds() {
-        String[] templateTypeIds = { "controller", "form", "service", "serviceImpl", "list.html", "detail.html",
+        String[] templateTypeIds = { "controller", "form", "service", "serviceImpl", "dao", "list.html", "detail.html",
                 "edit.html" };
         for (Func func : config.getFuncs()) {
             System.out.println("  func: " + func.getName());
@@ -56,6 +56,9 @@ public final class CrudGenerator {
             ctx.put("config", config);
             System.out.println("    start gen");
             for (String templateTypeId : templateTypeIds) {
+                if (templateTypeId.equals("dao") && cb.getDao() == null) {
+                    continue;
+                }
                 System.out.print(">>> ");
                 File f = generateFile(cb, templateTypeId, ctx);
                 System.out.println("file: " + f.getAbsolutePath());
@@ -75,6 +78,7 @@ public final class CrudGenerator {
             case "serviceImpl":
                 target = LetterCaseConverter.toPascalCase(cb.getResourceId() + "Crud");
                 break;
+            case "dao":
             case "form":
                 target = LetterCaseConverter.toPascalCase(cb.getResourceId());
                 break;
@@ -94,6 +98,10 @@ public final class CrudGenerator {
         case "service":
         case "serviceImpl": {
             f = javaFileResolver.apply("service");
+        }
+            break;
+        case "dao": {
+            f = javaFileResolver.apply("dao");
         }
             break;
         case "list.html":
@@ -164,8 +172,9 @@ public final class CrudGenerator {
         ctx.put("resourceClassName", LetterCaseConverter.toPascalCase(cb.getResourceId()));
         ctx.put("resourcesClassName", LetterCaseConverter.toPascalCase(cb.getResourcesId()));
         ctx.put("items", cb.getItems());
-        ctx.put("caseCtrl", LetterCaseConverter.class);
         ctx.put("validationBinder", new ValidationBinder(cb.getValidations()));
+        ctx.put("dao", cb.getDao());
+        ctx.put("caseCtrl", LetterCaseConverter.class);
         return ctx;
     }
 
@@ -187,6 +196,7 @@ public final class CrudGenerator {
         cb.setItems(items);
         cb.setEntityFqcn(bean.getResultMap().getType());
         cb.setValidations(func.getValidations());
+        cb.setDao(func.getDao());
         return cb;
     }
 
