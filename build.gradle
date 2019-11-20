@@ -13,12 +13,15 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("gradle.plugin.org.flywaydb:gradle-plugin-publishing:6.0.8")
+		classpath("org.yaml:snakeyaml:1.25")
 	}
 }
 
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.flywaydb.flyway'
 	apply plugin: 'eclipse'
 	group = 'fondue'
 	sourceCompatibility = 1.8
@@ -44,6 +47,36 @@ subprojects {
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
 		systemProperty 'fondue.rootPkg', System.getProperty('fondue.rootPkg')
+	}
+
+	task dbInfo(type: org.flywaydb.gradle.task.FlywayInfoTask) {
+		description = 'Shows DB info for Fondue App (flywayInfo).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
+	}
+
+	task dbMigrate(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+		description = 'Migrates DB for Fondue App (flywayMigrate).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
+	}
+
+	task dbRepair(type: org.flywaydb.gradle.task.FlywayRepairTask) {
+		description = 'Repairs DB for Fondue App (flywayRepair).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
 	}
 
 	task genModel(type:JavaExec) {

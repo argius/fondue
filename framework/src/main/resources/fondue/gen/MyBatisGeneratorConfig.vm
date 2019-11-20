@@ -13,7 +13,7 @@
 
     <!-- JDBC Connection -->
     <jdbcConnection driverClass="org.h2.Driver"
-        connectionURL="jdbc:h2:file:~/fondue;AUTO_SERVER=TRUE"
+        connectionURL="jdbc:h2:file:~/.fondue/db/h2;AUTO_SERVER=TRUE"
         userId="sa"
         password="sa">
     </jdbcConnection>
