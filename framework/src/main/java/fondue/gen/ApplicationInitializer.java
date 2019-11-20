@@ -133,7 +133,8 @@ public final class ApplicationInitializer {
         Stream.of("src/main/resources/application.yml", "src/main/resources/messages.properties",
                 "src/main/resources/templates/layout.html", "src/main/resources/templates/pagination.html",
                 "src/main/resources/templates/fragments.html", "src/main/resources/static/css/style.css",
-                "src/main/resources/static/js/common.js").forEach(x -> {
+                "src/main/resources/static/js/common.js", "src/main/resources/db/migration/V1.0__create_tables.sql",
+                "src/main/resources/db/migration/V1.1__insert_initial_data.sql").forEach(x -> {
                     System.out.print("  >>> ");
                     Path path = Paths.get(x);
                     String name = PathString.name(path);
