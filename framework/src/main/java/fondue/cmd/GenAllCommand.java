@@ -1,5 +1,6 @@
 package fondue.cmd;
 
+@Deprecated
 public final class GenAllCommand {
 
     private GenAllCommand() {
