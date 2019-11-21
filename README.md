@@ -44,16 +44,16 @@ If not installed gradle, use `./gradlew` instead.
 To run fondue-app1;
 
 1. Prepare a database contains 2 tables. (See ./fondue-app1/config/ddl-sql.txt)
-2. Run `gradle bootRun` to run fondue-app1.
+2. Run `gradle example:fondue-app1:bootRun` to run fondue-app1 at fondue-root directory.
 
 
 ## To create a new app
 
 1. Prepare a database contains a table 'app1.dummies'. (See Wiki)
-2. Run `./add <app-name>` at fondue-root directory. (and `cd <app-name>`)
-3. Run `gradle initApp` at your project.
-4. Run `gradle genAll` (genModel and genCrud) at your project.
-5. Run `gradle bootRun` to run your app.
+2. Run `./add <app-name>` at fondue-root directory.
+3. Run `gradle <app-name>:initApp` at your project.
+4. Run `gradle <app-name>:genAll` (genModel and genCrud) at your project.
+5. Run `gradle <app-name>:bootRun` to run your app.
 6. Configure `MyBatisGeneratorConfig.xml` and `fondue-gen.yml`
 7. Repeat from #4
 
