@@ -44,12 +44,14 @@ subprojects {
 	}
 
 	task showHelp(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Shows (this) help.'
 		main = 'fondue.cmd.HelpCommand'
 		classpath = configurations.runtime
 	}
 
 	task initApp(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Initializes App for Spring and Fondue.'
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
@@ -57,6 +59,7 @@ subprojects {
 	}
 
 	task dbInfo(type: org.flywaydb.gradle.task.FlywayInfoTask) {
+		group = 'Fondue'
 		description = 'Shows DB info for Fondue App (flywayInfo).'
 		doFirst {
 			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
@@ -67,6 +70,7 @@ subprojects {
 	}
 
 	task dbMigrate(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+		group = 'Fondue'
 		description = 'Migrates DB for Fondue App (flywayMigrate).'
 		doFirst {
 			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
@@ -77,6 +81,7 @@ subprojects {
 	}
 
 	task dbRepair(type: org.flywaydb.gradle.task.FlywayRepairTask) {
+		group = 'Fondue'
 		description = 'Repairs DB for Fondue App (flywayRepair).'
 		doFirst {
 			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
@@ -87,6 +92,7 @@ subprojects {
 	}
 
 	task genModel(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Generates models for MyBatis.'
 		main = 'org.mybatis.generator.api.ShellRunner'
 		classpath = configurations.runtime
@@ -109,6 +115,7 @@ subprojects {
 	}
 
 	task genCrud(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Generates CRUDs for Spring and Fondue.'
 		main = 'fondue.cmd.GenCrudCommand'
 		classpath = configurations.runtime
@@ -118,6 +125,7 @@ subprojects {
 	genCrud.mustRunAfter genModel
 
 	task genAll(dependsOn: ['genModel', 'genCrud']) {
+		group = 'Fondue'
 		description = 'Runs genModel and genCrud.'
 	}
 }
