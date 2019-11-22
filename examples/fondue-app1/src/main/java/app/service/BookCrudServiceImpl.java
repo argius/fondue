@@ -1,13 +1,15 @@
 package app.service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import fondue.fw.PP;
+import app.dao.BookDao;
 import app.dao.BookMapper;
 import app.model.Book;
-import app.model.BookExample;
 
 @Component
 public class BookCrudServiceImpl implements BookCrudService {
@@ -15,12 +17,16 @@ public class BookCrudServiceImpl implements BookCrudService {
     @Autowired
     private BookMapper mapper;
 
+    @Autowired
+    private BookDao dao;
+
     @Override
     public List<Book> getBooks(PP page) {
-        BookExample example = new BookExample();
-        page.setTotalCount(mapper.countByExample(example));
+        String q = page.getQuery();
+        List<String> keywords = (q == null) ? Collections.emptyList() : Arrays.asList(q.split("\\s"));
+        page.setTotalCount(dao.countByKeywords(keywords));
         RowBounds rowBounds = new RowBounds(page.offset(), page.limit());
-        return mapper.selectByExampleWithRowbounds(example, rowBounds);
+        return dao.selectByKeywordsWithRowbounds(keywords, rowBounds);
     }
 
     @Override

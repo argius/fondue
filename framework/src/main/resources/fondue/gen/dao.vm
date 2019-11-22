@@ -1,0 +1,65 @@
+package app.dao;
+
+import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.jdbc.SQL;
+import org.apache.ibatis.session.RowBounds;
+import ${entityFqcn};
+
+@Mapper
+public interface ${resourceClassName}Dao {
+
+    @SelectProvider(type = SqlProvider.class, method = "countBy")
+    long countByKeywords(@Param("keywords") List<String> keywords);
+
+    @SelectProvider(type = SqlProvider.class, method = "findBy")
+    @ResultMap("${entityFqcn.replace(".model.", ".dao.")}Mapper.BaseResultMap")
+    List<Book> selectByKeywordsWithRowbounds(@Param("keywords") List<String> keywords, RowBounds rowBounds);
+
+    public static final class SqlProvider {
+        public SqlProvider() {
+        }
+        public String countBy(@Param("keywords") List<String> keywords) {
+            return new SqlBuilder(keywords, true).toString();
+        }
+        public String findBy(@Param("keywords") List<String> keywords) {
+            return new SqlBuilder(keywords, false).toString();
+        }
+    }
+
+    static final class SqlBuilder extends SQL {
+        SqlBuilder(List<String> keywords, boolean asCountStatement) {
+            SELECT(getColumns(asCountStatement));
+            FROM("${dao.tableId}");
+#if( $dao.clauseBeforeLoop )
+            WHERE("${dao.clauseBeforeLoop}");
+#end
+#if( $dao.clauseInLoop )
+            for (int i = 0, n = keywords.size(); i < n; i++) {
+                WHERE("${dao.clauseInLoop}");
+            }
+#end
+#if( $dao.clauseAfterLoop )
+            WHERE("${dao.clauseAfterLoop}");
+#end
+#if( $dao.orderBy )
+            if (!asCountStatement) {
+                ORDER_BY("${dao.orderBy}");
+            }
+#end
+        }
+        String[] getColumns(boolean asCountStatement) {
+            if (asCountStatement) {
+                return new String[] {"count(*)"};
+            }
+            return new String[] {
+#foreach( $item in $items )
+                "${item.column}",
+#end
+            };
+        }
+    }
+}

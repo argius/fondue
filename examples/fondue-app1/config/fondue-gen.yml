@@ -26,5 +26,11 @@ funcs:
      - field: bookNumber
        type: Size
        appendingAttributes: max = 16
+   dao:
+      tableId: app1.books
+      clauseBeforeLoop: "disabled = '0'"
+      clauseInLoop: "(title like '%'||#{keywords[\" + i + \"]}||'%' or author like '%'||#{keywords[\" + i + \"]}||'%')"
+      clauseAfterLoop: "1 = 1"
+      orderBy: "updated desc"
  - name: remark
    resourceName: remarks

@@ -1,6 +1,7 @@
 package fondue.gen;
 
 import java.util.List;
+import fondue.gen.Config.Dao;
 import fondue.gen.Config.Validation;
 
 public final class CrudBean extends BaseBean {
@@ -13,6 +14,7 @@ public final class CrudBean extends BaseBean {
     private String entityFqcn;
     private List<MyBatisMapperXmlBean.Result> items;
     private List<Validation> validations;
+    private Dao dao;
 
     public String getRootPkg() {
         return rootPkg;
@@ -76,5 +78,13 @@ public final class CrudBean extends BaseBean {
 
     public void setValidations(List<Validation> validations) {
         this.validations = validations;
+    }
+
+    public Dao getDao() {
+        return dao;
+    }
+
+    public void setDao(Dao dao) {
+        this.dao = dao;
     }
 }

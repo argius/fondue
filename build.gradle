@@ -1,5 +1,5 @@
 
-version = '1.2.4'
+version = '1.3.0'
 
 buildscript {
 	ext {
@@ -13,12 +13,15 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("gradle.plugin.org.flywaydb:gradle-plugin-publishing:6.0.8")
+		classpath("org.yaml:snakeyaml:1.25")
 	}
 }
 
 subprojects {
 	apply plugin: 'java'
 	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.flywaydb.flyway'
 	apply plugin: 'eclipse'
 	group = 'fondue'
 	sourceCompatibility = 1.8
@@ -33,26 +36,78 @@ subprojects {
 		}
 	}
 
+	flyway {
+		// parameters in case of using directly Flyway tasks
+		url = "jdbc:h2:file:~/.fondue/db/h2;AUTO_SERVER=TRUE"
+		user = "sa"
+		password = "sa"
+	}
+
 	task showHelp(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Shows (this) help.'
 		main = 'fondue.cmd.HelpCommand'
 		classpath = configurations.runtime
 	}
 
 	task initApp(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Initializes App for Spring and Fondue.'
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
 		systemProperty 'fondue.rootPkg', System.getProperty('fondue.rootPkg')
 	}
 
+	task dbInfo(type: org.flywaydb.gradle.task.FlywayInfoTask) {
+		group = 'Fondue'
+		description = 'Shows DB info for Fondue App (flywayInfo).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
+	}
+
+	task dbMigrate(type: org.flywaydb.gradle.task.FlywayMigrateTask) {
+		group = 'Fondue'
+		description = 'Migrates DB for Fondue App (flywayMigrate).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
+	}
+
+	task dbRepair(type: org.flywaydb.gradle.task.FlywayRepairTask) {
+		group = 'Fondue'
+		description = 'Repairs DB for Fondue App (flywayRepair).'
+		doFirst {
+			def appConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'src/main/resources/application.yml')).newInputStream() )
+			url = "${appConfig.spring.datasource.url}"
+			user = "${appConfig.spring.datasource.username}"
+			password = "${appConfig.spring.datasource.password}"
+		}
+	}
+
 	task genModel(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Generates models for MyBatis.'
 		main = 'org.mybatis.generator.api.ShellRunner'
 		classpath = configurations.runtime
-		args('-configfile', 'config/MyBatisGeneratorConfig.xml', '-overwrite')
 		doFirst {
 			println 'fondue genModel: Generating Model files by MyBatis Generator ...'
+			args += ['-configfile', 'config/MyBatisGeneratorConfig.xml']
+			def genConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'config/fondue-gen.yml')).newInputStream() )
+			if (genConfig.preparationMode == 'OVERWRITE') {
+				args += '-overwrite'
+			}
+			else {
+				println ''
+				println ' *** Warning *** preparationMode "' + genConfig.preparationMode + '" is not supported on genModel'
+				println ''
+			}
 		}
 		doLast {
 			println 'fondue genModel: Finished.'
@@ -60,6 +115,7 @@ subprojects {
 	}
 
 	task genCrud(type:JavaExec) {
+		group = 'Fondue'
 		description = 'Generates CRUDs for Spring and Fondue.'
 		main = 'fondue.cmd.GenCrudCommand'
 		classpath = configurations.runtime
@@ -69,6 +125,7 @@ subprojects {
 	genCrud.mustRunAfter genModel
 
 	task genAll(dependsOn: ['genModel', 'genCrud']) {
+		group = 'Fondue'
 		description = 'Runs genModel and genCrud.'
 	}
 }

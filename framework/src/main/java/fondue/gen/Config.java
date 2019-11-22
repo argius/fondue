@@ -139,6 +139,7 @@ public final class Config {
         private String resourceName;
         private String groupBy;
         private List<Validation> validations;
+        private Dao dao;
 
         public Func() {
             this.name = "";
@@ -180,9 +181,18 @@ public final class Config {
             this.validations = validations;
         }
 
+        public Dao getDao() {
+            return dao;
+        }
+
+        public void setDao(Dao dao) {
+            this.dao = dao;
+        }
+
         @Override
         public String toString() {
-            return String.format("Func(name=%s, resourceName=%s, groupBy=%s)", name, resourceName, groupBy);
+            return String.format("Func(name=%s, resourceName=%s, groupBy=%s, validations=%s, dao=%s)",
+                                 name, resourceName, groupBy, validations, dao);
         }
     }
 
@@ -226,6 +236,62 @@ public final class Config {
         public String toString() {
             return String.format("Validation(field=%s, type=%s, appendingAttributes=%s)", field, type,
                     appendingAttributes);
+        }
+    }
+
+    public static final class Dao {
+
+        private String tableId;
+        private String clauseBeforeLoop;
+        private String clauseInLoop;
+        private String clauseAfterLoop;
+        private String orderBy;
+
+        public String getTableId() {
+            return tableId;
+        }
+
+        public void setTableId(String tableId) {
+            this.tableId = tableId;
+        }
+
+        public String getClauseBeforeLoop() {
+            return clauseBeforeLoop;
+        }
+
+        public void setClauseBeforeLoop(String clauseBeforeLoop) {
+            this.clauseBeforeLoop = clauseBeforeLoop;
+        }
+
+        public String getClauseInLoop() {
+            return clauseInLoop;
+        }
+
+        public void setClauseInLoop(String clauseInLoop) {
+            this.clauseInLoop = clauseInLoop;
+        }
+
+        public String getClauseAfterLoop() {
+            return clauseAfterLoop;
+        }
+
+        public void setClauseAfterLoop(String clauseAfterLoop) {
+            this.clauseAfterLoop = clauseAfterLoop;
+        }
+
+        public String getOrderBy() {
+            return orderBy;
+        }
+
+        public void setOrderBy(String orderBy) {
+            this.orderBy = orderBy;
+        }
+
+        @Override
+        public String toString() {
+            return String.format(
+                    "Dao(tableId=%s, clauseBeforeLoop=%s, clauseInLoop=%s, clauseAfterLoop=%s, orderBy=%s)", tableId,
+                    clauseBeforeLoop, clauseInLoop, clauseAfterLoop, orderBy);
         }
     }
 
