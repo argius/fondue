@@ -36,6 +36,13 @@ subprojects {
 		}
 	}
 
+	flyway {
+		// parameters in case of using directly Flyway tasks
+		url = "jdbc:h2:file:~/.fondue/db/h2;AUTO_SERVER=TRUE"
+		user = "sa"
+		password = "sa"
+	}
+
 	task showHelp(type:JavaExec) {
 		description = 'Shows (this) help.'
 		main = 'fondue.cmd.HelpCommand'
