@@ -83,9 +83,18 @@ subprojects {
 		description = 'Generates models for MyBatis.'
 		main = 'org.mybatis.generator.api.ShellRunner'
 		classpath = configurations.runtime
-		args('-configfile', 'config/MyBatisGeneratorConfig.xml', '-overwrite')
 		doFirst {
 			println 'fondue genModel: Generating Model files by MyBatis Generator ...'
+			args += ['-configfile', 'config/MyBatisGeneratorConfig.xml']
+			def genConfig = new org.yaml.snakeyaml.Yaml().load( file(new File(project.layout.projectDirectory.getAsFile(), 'config/fondue-gen.yml')).newInputStream() )
+			if (genConfig.preparationMode == 'OVERWRITE') {
+				args += '-overwrite'
+			}
+			else {
+				println ''
+				println ' *** Warning *** preparationMode "' + genConfig.preparationMode + '" is not supported on genModel'
+				println ''
+			}
 		}
 		doLast {
 			println 'fondue genModel: Finished.'
