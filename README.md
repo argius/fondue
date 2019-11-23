@@ -14,6 +14,7 @@ Fondue has 3 features;
    * Form.java (with Bean Validation)
    * CrudService.java
    * CrudServiceImpl.java
+   * (Model)Dao.java (Optional)
    * list.html
    * detail.html
    * edit.html
