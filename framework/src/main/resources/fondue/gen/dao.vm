@@ -17,7 +17,7 @@ public interface ${resourceClassName}Dao {
 
     @SelectProvider(type = SqlProvider.class, method = "findBy")
     @ResultMap("${entityFqcn.replace(".model.", ".dao.")}Mapper.BaseResultMap")
-    List<Book> selectByKeywordsWithRowbounds(@Param("keywords") List<String> keywords, RowBounds rowBounds);
+    List<${entity}> selectByKeywordsWithRowbounds(@Param("keywords") List<String> keywords, RowBounds rowBounds);
 
     public static final class SqlProvider {
         public SqlProvider() {
