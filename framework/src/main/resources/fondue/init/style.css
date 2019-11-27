@@ -164,6 +164,10 @@ input.validation-error {
 		font-size: 160%;
 		width: 280px;
 	}
+	input[name=q] {
+		width: 12em;
+		min-width: 12em;
+	}
 	button.btn-default {
 		font-size: 130%;
 		background-color: silver;
@@ -212,5 +216,9 @@ input.validation-error {
 	}
 	input[type=button], input[type=submit], select {
 		min-width: 200px;
+	}
+	input[name=q] {
+		width: 12em;
+		min-width: 12em;
 	}
 }
