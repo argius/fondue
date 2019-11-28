@@ -1,5 +1,5 @@
 
-version = '1.3.1'
+version = '1.3.2'
 
 buildscript {
 	ext {
@@ -55,6 +55,7 @@ subprojects {
 		description = 'Initializes App for Spring and Fondue.'
 		main = 'fondue.cmd.InitAppCommand'
 		classpath = configurations.runtime
+		args += project.name
 		systemProperty 'fondue.rootPkg', System.getProperty('fondue.rootPkg')
 	}
 
