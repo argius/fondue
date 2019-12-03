@@ -1,5 +1,5 @@
 
-appName: app1
+appName: fondue-app1
 rootPkg: app
 
 preparationMode: NONE # BACKUP/OVERWRITE/NONE
