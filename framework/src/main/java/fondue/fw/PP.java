@@ -7,14 +7,16 @@ import org.apache.commons.lang3.Range;
  */
 public final class PP {
 
-    private static final int countPerPage = 20;
+    private static final int DEFAULT_COUNT_PER_PAGE = 20;
 
+    private int countPerPage;
     private boolean disabled;
     private int currentPage;
     private long totalCount;
     private String query;
 
     public PP() {
+        this.countPerPage = DEFAULT_COUNT_PER_PAGE;
         this.query = "";
     }
 
@@ -41,16 +43,12 @@ public final class PP {
     }
 
     public int getLastPage() {
+        assert totalCount >= 0L;
         if (totalCount == 0) {
             return 1;
         }
         long c = Math.floorDiv(totalCount, countPerPage) + (Math.floorMod(totalCount, countPerPage) > 0 ? 1 : 0);
-        if (c > Integer.MAX_VALUE) {
-            throw new UnsupportedOperationException("page count too large (some kind of mistake?): count = " + c);
-        }
-        if (c == 0) {
-            throw new IllegalStateException("page: " + this);
-        }
+        assert c > 0L && c <= Integer.MAX_VALUE;
         return (int) c;
     }
 
@@ -66,6 +64,17 @@ public final class PP {
     }
 
     // getter-setter
+
+    public int getCountPerPage() {
+        return countPerPage;
+    }
+
+    public void setCountPerPage(int countPerPage) {
+        if (countPerPage < 1) {
+            throw new IllegalArgumentException("countPerPage = " + countPerPage);
+        }
+        this.countPerPage = countPerPage;
+    }
 
     public boolean isDisabled() {
         return disabled;
@@ -88,6 +97,9 @@ public final class PP {
     }
 
     public void setTotalCount(long totalCount) {
+        if (totalCount < 0) {
+            throw new IllegalArgumentException("totalCount = " + totalCount);
+        }
         this.totalCount = totalCount;
     }
 
@@ -100,8 +112,55 @@ public final class PP {
     }
 
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + countPerPage;
+        result = prime * result + currentPage;
+        result = prime * result + (disabled ? 1231 : 1237);
+        result = prime * result + ((query == null) ? 0 : query.hashCode());
+        result = prime * result + (int) (totalCount ^ (totalCount >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof PP)) {
+            return false;
+        }
+        PP other = (PP) obj;
+        if (countPerPage != other.countPerPage) {
+            return false;
+        }
+        if (currentPage != other.currentPage) {
+            return false;
+        }
+        if (disabled != other.disabled) {
+            return false;
+        }
+        if (query == null) {
+            if (other.query != null) {
+                return false;
+            }
+        } else if (!query.equals(other.query)) {
+            return false;
+        }
+        if (totalCount != other.totalCount) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
-        return "PP(disabled=" + disabled + ",currentPage=" + currentPage + ",totalCount=" + totalCount + ")";
+        return String.format("PP(countPerPage=%s, disabled=%s, currentPage=%s, totalCount=%s, query=%s)",
+            countPerPage, disabled, currentPage, totalCount, query);
     }
 
 }

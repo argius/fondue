@@ -1,9 +1,15 @@
 package fondue.fw;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.hamcrest.Matchers;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public final class PPTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     static void assertT(boolean b) {
         assertEquals("T", b ? "T" : "F");
@@ -70,6 +76,37 @@ public final class PPTest {
     }
 
     @Test
+    public void testGetCountPerPage() {
+        PP p = new PP();
+        assertEquals(20, p.getCountPerPage());
+        p.setCountPerPage(1);
+        assertEquals(1, p.getCountPerPage());
+        p.setCountPerPage(50);
+        assertEquals(50, p.getCountPerPage());
+    }
+
+    @Test
+    public void testSetCountPerPage() {
+        // omit
+    }
+
+    @Test
+    public void testSetCountPerPageException1() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Matchers.containsString("countPerPage = -1"));
+        PP p = new PP();
+        p.setCountPerPage(-1);
+    }
+
+    @Test
+    public void testSetCountPerPageException2() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Matchers.containsString("countPerPage = 0"));
+        PP p = new PP();
+        p.setCountPerPage(0);
+    }
+
+    @Test
     public void testGetLastPage() {
         PP p = new PP();
         p.setTotalCount(0);
@@ -82,6 +119,10 @@ public final class PPTest {
         assertEquals(2, p.getLastPage());
         p.setTotalCount(41);
         assertEquals(3, p.getLastPage());
+        //
+        p.setCountPerPage(7);
+        p.setTotalCount(49);
+        assertEquals(7, p.getLastPage());
     }
 
     @Test
@@ -159,7 +200,17 @@ public final class PPTest {
 
     @Test
     public void testSetTotalCount() {
-        // omit
+        PP p = new PP();
+        p.setTotalCount(0L);
+        p.setTotalCount(1L);
+    }
+
+    @Test
+    public void testSetTotalCountException1() {
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage(Matchers.containsString("totalCount = -1"));
+        PP p = new PP();
+        p.setTotalCount(-1L);
     }
 
     @Test
@@ -178,15 +229,15 @@ public final class PPTest {
     @Test
     public void testToString() {
         PP p = new PP();
-        assertEquals("PP(disabled=false, currentPage=0, totalCount=0, query=)", p.toString());
+        assertEquals("PP(countPerPage=20, disabled=false, currentPage=0, totalCount=0, query=)", p.toString());
         p.setDisabled(true);
-        assertEquals("PP(disabled=true, currentPage=0, totalCount=0, query=)", p.toString());
+        assertEquals("PP(countPerPage=20, disabled=true, currentPage=0, totalCount=0, query=)", p.toString());
         p.setDisabled(false);
         p.setTotalCount(41);
         p.setCurrentPage(2);
         p.validateCurrentPage();
         p.setQuery("ABC");
-        assertEquals("PP(disabled=false, currentPage=2, totalCount=41, query=ABC)", p.toString());
+        assertEquals("PP(countPerPage=20, disabled=false, currentPage=2, totalCount=41, query=ABC)", p.toString());
     }
 
 }

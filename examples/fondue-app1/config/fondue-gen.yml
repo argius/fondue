@@ -16,6 +16,7 @@ funcs:
  - name: book
    resourceName: books
    groupBy: # not implemented
+   countPerPage: 3
    validations:
      - field: title
        type: Size

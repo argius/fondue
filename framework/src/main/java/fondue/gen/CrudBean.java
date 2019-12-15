@@ -12,6 +12,7 @@ public final class CrudBean extends BaseBean {
     private String resourceId;
     private String resourcesId;
     private String entityFqcn;
+    private int pagePerCount;
     private List<MyBatisMapperXmlBean.Result> items;
     private List<Validation> validations;
     private Dao dao;
@@ -54,6 +55,14 @@ public final class CrudBean extends BaseBean {
 
     public void setResourcesId(String resourcesName) {
         this.resourcesId = resourcesName;
+    }
+
+    public int getPagePerCount() {
+        return pagePerCount;
+    }
+
+    public void setPagePerCount(int pagePerCount) {
+        this.pagePerCount = pagePerCount;
     }
 
     public List<MyBatisMapperXmlBean.Result> getItems() {
