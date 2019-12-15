@@ -178,6 +178,7 @@ public final class CrudGenerator {
         ctx.put("resources", cb.getResourcesId());
         ctx.put("resourceClassName", LetterCaseConverter.toPascalCase(cb.getResourceId()));
         ctx.put("resourcesClassName", LetterCaseConverter.toPascalCase(cb.getResourcesId()));
+        ctx.put("pagePerCount", cb.getPagePerCount());
         ctx.put("items", cb.getItems());
         ctx.put("validationBinder", new ValidationBinder(cb.getValidations()));
         ctx.put("dao", cb.getDao());
@@ -200,6 +201,7 @@ public final class CrudGenerator {
         cb.setEntitiesId(GeneratorUtils.convertToPluralForm(entityName));
         cb.setResourceId(resourceId);
         cb.setResourcesId(resourcesId);
+        cb.setPagePerCount(func.getCountPerPage());
         cb.setItems(items);
         cb.setEntityFqcn(bean.getResultMap().getType());
         cb.setValidations(func.getValidations());
