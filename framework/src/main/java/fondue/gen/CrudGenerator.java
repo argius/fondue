@@ -48,8 +48,8 @@ public final class CrudGenerator {
     }
 
     public void generateCruds() {
-        String[] templateTypeIds = { "controller", "form", "service", "serviceImpl", "dao", "list.html", "detail.html",
-                "edit.html" };
+        String[] templateTypeIds = { "controller", "form", "service", "serviceImpl", "dao", "controllerTest",
+                "serviceTest", "list.html", "detail.html", "edit.html" };
         for (Func func : config.getFuncs()) {
             System.out.println("  func: " + func.getName());
             CrudBean cb = createCrudBean(func);
@@ -77,6 +77,8 @@ public final class CrudGenerator {
             case "controller":
             case "service":
             case "serviceImpl":
+            case "controllerTest":
+            case "serviceTest":
                 target = LetterCaseConverter.toPascalCase(cb.getResourceId() + "Crud");
                 break;
             case "dao":
@@ -87,17 +89,20 @@ public final class CrudGenerator {
                 target = cb.getEntitiesId();
             }
             String fileName = target + LetterCaseConverter.toPascalCase(templateTypeId) + ".java";
-            return new File(new File("src/main/java", pkg.toPath()), fileName);
+            String pkg2 = templateTypeId.endsWith("Test") ? "test" : "main";
+            return new File(new File("src/" + pkg2 + "/java", pkg.toPath()), fileName);
         };
         final File f;
         switch (templateTypeId) {
         case "controller":
-        case "form": {
+        case "form":
+        case "controllerTest": {
             f = javaFileResolver.apply("controller");
         }
             break;
         case "service":
-        case "serviceImpl": {
+        case "serviceImpl":
+        case "serviceTest": {
             f = javaFileResolver.apply("service");
         }
             break;
