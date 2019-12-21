@@ -3,8 +3,8 @@ package fondue.gen;
 import static fondue.gen.GeneratorUtils.convertToPluralForm;
 import static fondue.gen.GeneratorUtils.formatPathPatternString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.junit.Test;
 
