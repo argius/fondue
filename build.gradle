@@ -20,6 +20,7 @@ buildscript {
 
 subprojects {
 	apply plugin: 'java'
+	apply plugin: 'java-library'
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'org.flywaydb.flyway'
 	apply plugin: 'eclipse'
@@ -134,41 +135,43 @@ subprojects {
 project(':fondue-framework') {
 	dependencies {
 		// for Spring
-		compile('org.springframework.boot:spring-boot-starter-web')
-		testCompile('org.springframework.boot:spring-boot-starter-test')
+		api 'org.springframework.boot:spring-boot-starter-web'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		// for MyBatis
-		compile('org.mybatis.generator:mybatis-generator-core:1.3.6')
+		implementation 'org.mybatis.generator:mybatis-generator-core:1.3.6'
 		// for Fondue
-		compile('org.apache.velocity:velocity-engine-core:2.0')
-		compile('org.yaml:snakeyaml:1.25')
-		compile('net.argius:minestra:1.2.0')
+		implementation 'org.apache.velocity:velocity-engine-core:2.0'
+		implementation 'org.yaml:snakeyaml:1.25'
+		implementation 'net.argius:minestra:1.2.0'
 	}
 }
 
 project(':fondue-app-base') {
 	dependencies {
 		// for Spring
-		compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-		compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.4.1')
-		// compile('org.springframework.boot:spring-boot-starter-security')
-		// compile('org.springframework.boot:spring-boot-starter-cache')
-		// compile('org.springframework.boot:spring-boot-starter-jdbc')
-		// compile('org.springframework.boot:spring-boot-starter-jersey')
-		// compile('org.springframework.boot:spring-boot-starter-mail')
-		// compile('org.springframework.session:spring-session')
+		api 'org.springframework.boot:spring-boot-starter-thymeleaf'
+		api 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.4.1'
+		// api 'org.springframework.boot:spring-boot-starter-security'
+		// api 'org.springframework.boot:spring-boot-starter-cache'
+		// api 'org.springframework.boot:spring-boot-starter-jdbc'
+		// api 'org.springframework.boot:spring-boot-starter-jersey'
+		// api 'org.springframework.boot:spring-boot-starter-mail'
+		// api 'org.springframework.session:spring-session'
 
 		// for MyBatis
-		compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1')
+		api 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.1'
 		// for Fondue
-		compile project(':fondue-framework')
+		api project(':fondue-framework')
+		api 'org.apache.commons:commons-lang3:3.9'
+		api 'com.h2database:h2:1.4.199'
 	}
 }
+
+// compile in app's dependencies is intentionally used
 
 project(':examples:fondue-app1') {
 	apply plugin: 'org.springframework.boot'
 	dependencies {
 		compile project(':fondue-app-base')
-		// for your app
-		compile('com.h2database:h2:1.4.199')
 	}
 }
