@@ -61,7 +61,7 @@ public interface FormMethods {
                 }
                 return c.cast(new Timestamp(DateUtils.parseDate(value, "yyyyMMddHHmmss").getTime()));
             }
-        } catch (ParseException e) {
+        } catch (ParseException | NumberFormatException e) {
             // ignore, so far
         }
         return (T) null;
