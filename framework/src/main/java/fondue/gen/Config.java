@@ -138,6 +138,7 @@ public final class Config {
         private String name;
         private String resourceName;
         private String groupBy;
+        private int countPerPage;
         private List<Validation> validations;
         private Dao dao;
 
@@ -173,6 +174,14 @@ public final class Config {
             this.groupBy = StringUtils.defaultString(groupBy);
         }
 
+        public int getCountPerPage() {
+            return countPerPage;
+        }
+
+        public void setCountPerPage(int countPerPage) {
+            this.countPerPage = countPerPage;
+        }
+
         public List<Validation> getValidations() {
             return validations;
         }
@@ -191,8 +200,8 @@ public final class Config {
 
         @Override
         public String toString() {
-            return String.format("Func(name=%s, resourceName=%s, groupBy=%s, validations=%s, dao=%s)",
-                                 name, resourceName, groupBy, validations, dao);
+            return String.format("Func(name=%s, resourceName=%s, groupBy=%s, countPerPage=%s, validations=%s, dao=%s)",
+                    name, resourceName, groupBy, countPerPage, validations, dao);
         }
     }
 

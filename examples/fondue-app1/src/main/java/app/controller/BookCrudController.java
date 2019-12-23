@@ -45,6 +45,7 @@ public final class BookCrudController implements ControllerBase {
 
     @GetMapping("list")
     public String getAllResources(@PA PP page, Model model) {
+        page.setCountPerPage(3);
         model.addAttribute(RESOURCES, service.getBooks(page));
         page.validateCurrentPage();
         return templatePath(RESOURCES, "list");

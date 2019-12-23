@@ -46,6 +46,9 @@ public final class ${className} implements ControllerBase {
 
     @GetMapping("list")
     public String getAllResources(@PA PP page, Model model) {
+#if( $pagePerCount > 0 )
+        page.setCountPerPage(${pagePerCount});
+#end
         model.addAttribute(RESOURCES, service.get${entities}(page));
         page.validateCurrentPage();
         return templatePath(RESOURCES, "list");
