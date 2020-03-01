@@ -57,7 +57,7 @@ public final class RemarkController implements ControllerBase {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public List<Remark> getUpdated(@PathVariable long t) {
-        log.debug("t=" + t + "/ " + new Date(t));
+        log.debug("t={}({})", t, new Date(t));
         return service.getUpdatedAfter(t);
     }
 }
