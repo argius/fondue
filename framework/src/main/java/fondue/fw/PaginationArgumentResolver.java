@@ -21,7 +21,7 @@ public final class PaginationArgumentResolver implements HandlerMethodArgumentRe
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        log.debug("param: " + parameter);
+        log.debug("param: {}", parameter);
         PP page = new PP();
         page.setCurrentPage(NumberUtils.toInt(webRequest.getParameter("p"), 1));
         page.setQuery(webRequest.getParameter("q"));

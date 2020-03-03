@@ -66,7 +66,7 @@ public final class BookCrudController implements ControllerBase {
     @PostMapping("create")
     public String requestCreateResource(@ModelAttribute("form") @Valid BookForm form, BindingResult bindingResult,
                                         Model model, RedirectAttributes ra, Locale locale) {
-        log.debug("form: " + form);
+        log.debug("form: {}", form);
         if (bindingResult.hasErrors()) {
             addErrorViewMessage(model, message(msg, locale, "message.validationError"));
             return templatePath(RESOURCES, "edit");
@@ -87,7 +87,7 @@ public final class BookCrudController implements ControllerBase {
     @PostMapping("update/{id}")
     public String requestUpdateResource(@PathVariable long id, @ModelAttribute("form") @Valid BookForm form, BindingResult bindingResult,
                                         Model model, RedirectAttributes ra, Locale locale) {
-        log.debug("form: " + form);
+        log.debug("form: {}", form);
         if (bindingResult.hasErrors()) {
             addErrorViewMessage(model, message(msg, locale, "message.validationError"));
             return templatePath(RESOURCES, "edit");
