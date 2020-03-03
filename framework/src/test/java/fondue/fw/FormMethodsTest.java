@@ -21,6 +21,7 @@ public final class FormMethodsTest {
         assertEquals("3.8", f.convertFrom(C, BigDecimal.valueOf(3.8d)));
         assertEquals("webapp test", f.convertFrom(C, "webapp test"));
         assertEquals("20100725061130", f.convertFrom(C, new Date(1280005890000L)));
+        assertEquals("20100725061130", f.convertFrom(C, new Timestamp(1280005890000L)));
         assertEquals("Optional[X]", f.convertFrom(C, Optional.of("X")));
     }
 
